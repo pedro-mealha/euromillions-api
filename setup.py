@@ -1,10 +1,7 @@
-import sys
-import requests
-import json
-import psycopg2
+import sys, requests, json, psycopg2
 from bs4 import BeautifulSoup
 from datetime import datetime
-from helper import Database
+from app.helper import Database
 
 BASE_URL = 'https://www.euro-millions.com'
 MIN_YEAR = 2004
@@ -39,13 +36,12 @@ def main(year):
 
         sql = "INSERT INTO results (numbers, stars, date, prize, has_winner) VALUES (%s, %s, %s, %s, %s);"
         db.getCursor().execute(sql, [numbers_string, stars_string, date, prize, has_winner])
-        break
 
     db.commit()
     db.close()
     print(json.dumps(parsed_results))
 
-def parsePageHtml:
+def parsePageHtml():
     url = BASE_URL + '/results-history-'+year
     page = requests.get(url)
  
