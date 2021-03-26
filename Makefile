@@ -8,3 +8,6 @@ migrate:
 
 setup:
 	python3 setup.py $(year)
+
+start:
+	export FLASK_APP=app/server.py && flask run

@@ -3,3 +3,4 @@ load_dotenv
 BeautifulSoup
 datetime
 json
+flask

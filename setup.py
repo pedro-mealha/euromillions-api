@@ -1,7 +1,7 @@
 import sys, requests, json, psycopg2
 from bs4 import BeautifulSoup
 from datetime import datetime
-from app.helper import Database
+from app.utils.db import Database
 
 BASE_URL = 'https://www.euro-millions.com'
 MIN_YEAR = 2004

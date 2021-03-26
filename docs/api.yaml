@@ -50,6 +50,7 @@ paths:
         required: true
         schema:
           type: integer
+        example: 202105
     get:
       summary: Fetch a specific contest result.
       tags:
