@@ -1,0 +1,65 @@
+openapi: 3.1.0
+servers:
+  - url: 'https://euro-millions-api.herokuapp.com'
+info:
+  description: >-
+    This is an public API for euromillions results and statistics. An REST API built to be fast, flexible and simple.
+  version: 0.1.0
+  title: Euromillions API
+  contact:
+    name: WeNeedThePoh
+    url: 'https://github.com/WeNeedThePoh'
+paths:
+  /results:
+    parameters:
+      - in: query
+        name: year
+        required: false
+        schema:
+            type: integer
+            minimum: 2004
+      - in: query
+        name: dates
+        required: false
+        schema:
+            type: string
+    get:
+      summary: Fetch all contest results
+      tags:
+        - results
+      responses:
+        '200':
+          description: List of all contest results
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas/result.yaml'
+              example:
+                $ref: 'examples/results.json'
+    post:
+      summary: Fetch and add new contents results. This is a cron job.
+      tags:
+        - results
+      responses:
+        '201':
+          description: The new results were successfully parsed and inserted.
+  /results/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Fetch a specific contest result.
+      tags:
+        - results
+      responses:
+        '200':
+          description: Contest result data.
+          content:
+            application/json:
+              schema:
+                $ref: 'schemas/result.yaml'
+              example:
+                $ref: 'examples/result.json'

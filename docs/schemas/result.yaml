@@ -1,0 +1,12 @@
+type: object
+properties:
+  numbers:
+    type: array
+  stars:
+    type: array
+  date:
+    type: string
+  prize:
+    type: float
+  has_winner:
+    type: boolean
