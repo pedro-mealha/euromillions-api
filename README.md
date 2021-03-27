@@ -8,7 +8,7 @@
 
 ***Tech stack***: Python, flask
 
-***DISCLAIMER***: Results data in this API are from https://www.euro-millions.com website HTML directly. The data is for informational purposes only, you should not construe any such information or other material as financial or other advice. Nothing contained on this API constitutes a solicitation, recommendation, endorsement, or offer to buy Euromillions tickets. This API is not affiliated in any kind to any Euromillions contest.
+***DISCLAIMER***: *Results data in this API are from https://www.euro-millions.com website HTML directly. The data is for informational purposes only, you should not construe any such information or other material as financial or other advice. Nothing contained on this API constitutes a solicitation, recommendation, endorsement, or offer to buy Euromillions tickets. This API is not affiliated in any kind to any Euromillions contest.*
 
 A small REST API for Euromillions contest. Here you will find all results since 2004 and some statistics/analytics.
 
