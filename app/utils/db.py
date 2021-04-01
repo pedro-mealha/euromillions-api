@@ -1,5 +1,6 @@
 import os
 import psycopg2
+import psycopg2.extras
 from dotenv import load_dotenv
 
 class Database():
@@ -14,7 +15,7 @@ class Database():
             host=os.getenv("DB_HOST"),
             port=os.getenv("DB_PORT")
             )
-            self.cur = self.conn.cursor()
+            self.cur = self.conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         except psycopg2.Error as error:
             print ("Oops! An exception has occured:", error)
 
