@@ -6,7 +6,7 @@ from app.utils.db import Database
 BASE_URL = 'https://www.euro-millions.com'
 MIN_YEAR = 2004
 
-def main(year):
+def main(year: int) -> None:
     if int(year) < MIN_YEAR:
         print('{}')
         return
@@ -14,11 +14,15 @@ def main(year):
     parsed_results = []
     results = parsePageHtml()
 
+    contest_id_index = 1
     for result in results:
         data = result.find('a', class_='title')
         details_route = data['href']
 
-        date = get_date(details_route)
+        datetime = get_date(details_route)
+
+        date = datetime.strftime('%Y-%m-%d')
+        contest_id = str(contest_id_index) + datetime.strftime('%Y')
         prize, has_winner = get_details(details_route)
         numbers = get_numbers(result)
         stars = get_stars(result)
@@ -34,14 +38,16 @@ def main(year):
         numbers_string = '{' + ','.join(str(number) for number in numbers) + '}'
         stars_string = '{' + ','.join(str(star) for star in stars) + '}'
 
-        sql = "INSERT INTO results (numbers, stars, date, prize, has_winner) VALUES (%s, %s, %s, %s, %s);"
-        db.getCursor().execute(sql, [numbers_string, stars_string, date, prize, has_winner])
+        sql = "INSERT INTO results (contest_id, numbers, stars, date, prize, has_winner) VALUES (%s, %s, %s, %s, %s, %s);"
+        db.getCursor().execute(sql, [contest_id, numbers_string, stars_string, date, prize, has_winner])
+
+        contest_id_index += 1
 
     db.commit()
     db.close()
     print(json.dumps(parsed_results))
 
-def parsePageHtml():
+def parsePageHtml() -> list:
     url = BASE_URL + '/results-history-'+year
     page = requests.get(url)
  
@@ -53,27 +59,27 @@ def parsePageHtml():
 
     return results
 
-def get_numbers(html):
+def get_numbers(html) -> list:
     numbers = []
     balls = html.find_all('li', class_='new ball')
     for ball in balls: numbers.append(int(ball.text))
 
     return numbers
 
-def get_stars(html):
+def get_stars(html) -> list:
     stars = []
     balls_star = html.find_all('li', class_='new lucky-star')
     for ball_star in balls_star: stars.append(int(ball_star.text))
 
     return stars
 
-def get_date(details_route):
+def get_date(details_route: str) -> datetime:
     date = details_route.split('/')[2]
     date = datetime.strptime(date, '%d-%m-%Y')
 
-    return date.strftime('%Y-%m-%d')
+    return date
  
-def get_details(details_route):
+def get_details(details_route: str) -> list:
     url = BASE_URL + details_route
     page = requests.get(url)
 
@@ -91,7 +97,7 @@ def get_details(details_route):
         if column['data-title'] == 'Prize Per Winner':
             prize = float(column.text.replace(',', '').replace('€', '').strip())
         elif column['data-title'] == 'Total Winners':
-            value = column.text.replace('Rollover! ', '').strip()
+            value = column.text.replace('Rollover! ', '').replace('Rolldown! ', '').strip()
             has_winner = int(value) > 0
 
     return [prize, has_winner]

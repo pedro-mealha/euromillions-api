@@ -10,6 +10,7 @@ steps = [
         CREATE TABLE results
         (
             id SERIAL NOT NULL,
+            contest_id INT NOT NULL,
             numbers TEXT[] NOT NULL,
             stars TEXT[] NOT NULL,
             date DATE NOT NULL,
@@ -19,6 +20,9 @@ steps = [
         """,
         "DROP TABLE results"
     ),
-    step("CREATE UNIQUE INDEX results_id_uindex ON results (id);"),
+    step(
+        "CREATE UNIQUE INDEX results_id_uindex ON results (id);",
+        "CREATE UNIQUE INDEX results_contest_id_uindex ON results (contest_id);"
+    ),
     step("ALTER TABLE results ADD CONSTRAINT results_pk PRIMARY KEY (id);")
 ]
