@@ -28,7 +28,7 @@ def get_draws(year: int, dates: list, limit = None, orderBy = None) -> list:
     return draws
 
 def get_latest_draw() -> dict:
-    latest = get_draws(None, None, 1, ["id", "DESC"])
+    latest = get_draws(None, None, 1, ["date", "DESC"])
     if len(latest) > 0:
         return latest[0]
 

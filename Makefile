@@ -1,5 +1,5 @@
 ifneq ("$(wildcard ./.env)","")
-    include .env
+	include .env
 endif
 
 start:

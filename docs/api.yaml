@@ -11,7 +11,8 @@ info:
     url: 'https://github.com/WeNeedThePoh'
 paths:
   /draws:
-    parameters:
+    get:
+      parameters:
       - in: query
         name: year
         required: false
@@ -23,7 +24,6 @@ paths:
         required: false
         schema:
             type: string
-    get:
       summary: Fetch all draws results
       tags:
         - draws
@@ -50,7 +50,7 @@ paths:
         required: true
         schema:
           type: integer
-        example: 202105
+        example: 52021
     get:
       summary: Fetch a specific draw result.
       tags:

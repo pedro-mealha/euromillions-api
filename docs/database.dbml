@@ -1,0 +1,9 @@
+Table draws {
+  id int [pk, increment]
+  draw_id int [not null]
+  numbers text[] [not null]
+  stars text[] [not null]
+  date date [not null]
+  prize float [default: 0]
+  has_winner bool [default: false]
+}
