@@ -1,13 +1,12 @@
-import sys, requests, json, psycopg2
-from bs4 import BeautifulSoup
+import sys, requests, json, os
 from datetime import datetime
+
+from bs4 import BeautifulSoup
+from dotenv import load_dotenv
 from app.utils.db import Database
 
-BASE_URL = 'https://www.euro-millions.com'
-MIN_YEAR = 2004
-
 def main(year: int) -> None:
-    if int(year) < MIN_YEAR:
+    if int(year) < int(os.getenv("EUROMILLIONS_MIN_YEAR")):
         print('{}')
         return
 
@@ -19,10 +18,10 @@ def main(year: int) -> None:
         data = result.find('a', class_='title')
         details_route = data['href']
 
-        datetime = get_date(details_route)
+        contest_datetime = get_date(details_route)
 
-        date = datetime.strftime('%Y-%m-%d')
-        contest_id = str(contest_id_index) + datetime.strftime('%Y')
+        date = contest_datetime.strftime('%Y-%m-%d')
+        contest_id = str(contest_id_index) + contest_datetime.strftime('%Y')
         prize, has_winner = get_details(details_route)
         numbers = get_numbers(result)
         stars = get_stars(result)
@@ -48,9 +47,9 @@ def main(year: int) -> None:
     print(json.dumps(parsed_results))
 
 def parsePageHtml() -> list:
-    url = BASE_URL + '/results-history-'+year
+    url = os.getenv("EUROMILLIONS_WEB_BASE_URL") + '/results-history-'+year
     page = requests.get(url)
- 
+
     html = BeautifulSoup(page.content, 'html.parser')
 
     content = html.find(id='content')
@@ -78,9 +77,9 @@ def get_date(details_route: str) -> datetime:
     date = datetime.strptime(date, '%d-%m-%Y')
 
     return date
- 
+
 def get_details(details_route: str) -> list:
-    url = BASE_URL + details_route
+    url = os.getenv("EUROMILLIONS_WEB_BASE_URL") + details_route
     page = requests.get(url)
 
     html = BeautifulSoup(page.content, 'html.parser')
@@ -107,6 +106,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         year = sys.argv[1]
 
+    load_dotenv()
     global db
     db = Database()
     main(year)

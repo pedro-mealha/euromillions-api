@@ -1,6 +1,4 @@
 psycopg2
-load_dotenv
-BeautifulSoup
-datetime
-json
+dotenv
+bs4
 flask
