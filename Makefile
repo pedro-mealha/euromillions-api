@@ -1,4 +1,4 @@
-ifneq ($(shell echo $FLASK_APP), api)
+ifneq ($(shell echo $$FLASK_APP), api)
 	include .env
 endif
 
