@@ -6,7 +6,7 @@ start:
 	flask run
 
 setup:
-	python3 setup.py $(year)
+	python3.9 setup.py $(year)
 
 new_migration:
 	yoyo new ./db/migrations -m "$(name)"

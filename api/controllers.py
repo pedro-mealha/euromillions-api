@@ -1,8 +1,10 @@
+from api.utils.db import Database
 from flask import Blueprint, request, jsonify, request
-
 from api import service, db
 
 bp = Blueprint('api', __name__)
+
+db = Database()
 
 @bp.route('/draws', methods=['POST'])
 def parse_new_draws():

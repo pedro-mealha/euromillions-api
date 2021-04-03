@@ -1,7 +1,29 @@
 import os, requests
 from datetime import datetime, date
-
 from bs4 import BeautifulSoup
+
+def get_draws_by_year(year: int) -> list:
+    url = os.getenv("EUROMILLIONS_WEB_BASE_URL") + '/results-history-'+year
+    page = requests.get(url)
+
+    html = BeautifulSoup(page.content, 'html.parser')
+
+    content = html.find(id='content')
+    draws = content.find_all('div', class_='archives')
+    draws.reverse() # So we insert draws sorted by date ASC
+
+    return draws
+
+def get_latest_draws() -> list:
+    url = os.getenv("EUROMILLIONS_WEB_BASE_URL") + '/results'
+    page = requests.get(url)
+
+    html = BeautifulSoup(page.content, 'html.parser')
+
+    draws = html.find(id='content').find('tbody').find_all('tr')
+    draws.reverse() # so we start to parse draws from oldest to newest
+
+    return draws
 
 def get_date(details_route: str) -> date:
     date_str = details_route.split('/')[2]
