@@ -1,5 +1,6 @@
 --
 -- file: db/migrations/0001.change-results-table-to-draws-table.sql
+-- depends: 0000.initial-schema
 --
 
 ALTER TABLE results RENAME COLUMN contest_id TO draw_id;

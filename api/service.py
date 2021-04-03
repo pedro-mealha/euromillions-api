@@ -12,7 +12,7 @@ def parse_new_draws() -> bool:
     if latest == None:
         return False
 
-    latest_draw_id_parsed = int(str(latest['draw_id'])[:2])
+    latest_draw_id_parsed = int(str(latest['draw_id'])[:-4])
     last_draw_date = latest['date']
     draws_to_insert = []
 
