@@ -16,3 +16,6 @@ migrate:
 
 migrate_rollback:
 	yoyo rollback --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_SCHEMA} ./db/migrations
+
+logs_prod:
+	heroku logs --tail --app euro-millions-api
