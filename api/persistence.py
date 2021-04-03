@@ -1,7 +1,4 @@
-from app.utils.db import Database
-
 def get_results(year: int, dates: list, limit = None, orderBy = None) -> list:
-    db = Database()
     sql = "SELECT * FROM results"
     vars = []
 

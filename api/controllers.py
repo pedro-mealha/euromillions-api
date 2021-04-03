@@ -1,20 +1,18 @@
-from dotenv.main import load_dotenv
-from flask import Flask, request, jsonify, Response
+from flask import Blueprint, json, request, jsonify, request
 
-import app.service as service
+import api.service as service
 
-app = Flask(__name__)
-load_dotenv()
+bp = Blueprint('euromillions_api', __name__)
 
-@app.route('/results', methods=['POST'])
+@bp.route('/results', methods=['POST'])
 def parse_new_results_controller():
     added = service.parse_new_results()
     if added:
         return "", 201
     else:
-        return Response("{\"error\":true}", status=400, mimetype='application/json')
+        return jsonify({"error": True}), 400
 
-@app.route('/results', methods=['GET'])
+@bp.route('/results', methods=['GET'])
 def get_results_controller():
     year = request.args.get('year')
     dates = request.args.get('dates')
@@ -24,7 +22,7 @@ def get_results_controller():
 
     return jsonify(service.get_results(year, dates)), 200
 
-@app.route('/results/<int:contest_id>')
+@bp.route('/results/<int:contest_id>')
 def get_result_controller(contest_id):
     contest = service.get_result(contest_id)
     if contest != None:

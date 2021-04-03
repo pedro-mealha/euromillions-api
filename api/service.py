@@ -2,8 +2,8 @@ import os, requests
 
 from bs4 import BeautifulSoup
 
-import app.persistence as persistence
-import app.external as external
+import api.persistence as persistence
+import api.external as external
 
 def get_results(year: int, dates: list) -> list:
     return persistence.get_results(year, dates)

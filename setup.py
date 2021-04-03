@@ -3,7 +3,7 @@ from datetime import datetime
 
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-from app.utils.db import Database
+from api.utils.db import Database
 
 def main(year: int) -> None:
     if int(year) < int(os.getenv("EUROMILLIONS_MIN_YEAR")):
