@@ -1,5 +1,5 @@
-ifneq ($(shell echo $$FLASK_APP), api)
-	include .env
+ifeq (,$(wildcard ./.env))
+    include .env
 endif
 
 start:
