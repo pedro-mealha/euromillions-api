@@ -1,4 +1,4 @@
-ifeq (,$(wildcard ./.env))
+ifneq ("$(wildcard ./.env)","")
     include .env
 endif
 
