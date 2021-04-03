@@ -1,3 +1,4 @@
+from datetime import date
 from api import persistence, external
 
 def get_draws(year: int, dates: list) -> list:
@@ -12,6 +13,7 @@ def parse_new_draws() -> bool:
         return False
 
     latest_draw_id_parsed = int(str(latest['draw_id'])[:2])
+    last_draw_date = latest['date']
     draws_to_insert = []
 
     latest_draws = external.get_latest_draws()
@@ -36,8 +38,7 @@ def parse_new_draws() -> bool:
         numbers_string = '{' + ','.join(str(number) for number in numbers) + '}'
         stars_string = '{' + ','.join(str(star) for star in stars) + '}'
 
-        latest_draw_id_parsed += 1
-        draw_id = int(str(latest_draw_id_parsed) + draw_date.strftime('%Y'))
+        last_draw_date, latest_draw_id_parsed, draw_id = get_new_draw_id(last_draw_date, draw_date, latest_draw_id_parsed)
 
         draws_to_insert.append([draw_id, numbers_string, stars_string, date, prize, has_winner])
 
@@ -45,3 +46,17 @@ def parse_new_draws() -> bool:
         return persistence.insert_draws(draws_to_insert)
 
     return True
+
+def get_new_draw_id(last_draw_date: date, current_draw_date: date, latest_draw_id: int) -> list:
+    """
+    This is to deal with the edge case of the end of the year, where we could be inserting
+    a new draw from a new year and we need to reset the draw ID.
+    """
+
+    if current_draw_date.strftime('%Y') > last_draw_date.strftime('%Y'):
+        draw_id = int('1' + current_draw_date.strftime('%Y'))
+        return [current_draw_date, 1, draw_id]
+
+    latest_draw_id += 1
+    draw_id = int(str(latest_draw_id) + current_draw_date.strftime('%Y'))
+    return [current_draw_date, latest_draw_id, draw_id]

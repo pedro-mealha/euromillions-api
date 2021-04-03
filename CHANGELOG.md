@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2021-04-03
+### Fixed
+- External logic so it all in the same file and is reusable.
+
+## [2.0.1] - 2021-04-03
+### Fixed
+- Issues with migrations
+
 ## [2.0.0] - 2021-04-03
 ### Updated
 - All occurrences of `results` to `draws` so it's more consistent.
@@ -42,6 +50,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial base files
 
+[2.1.0]: https://github.com/WeNeedThePoh/euromillions-api/compare/2.0.1...2.1.0
+[2.0.1]: https://github.com/WeNeedThePoh/euromillions-api/compare/2.0.0...2.0.1
 [2.0.0]: https://github.com/WeNeedThePoh/euromillions-api/compare/1.0.0...2.0.0
 [1.0.0]: https://github.com/WeNeedThePoh/euromillions-api/compare/0.1.0-beta...1.0.0
 [0.1.0-beta]: https://github.com/WeNeedThePoh/euromillions-api/compare/0.4.0-alpha...0.1.0-beta
