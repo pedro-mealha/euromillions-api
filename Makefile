@@ -1,4 +1,6 @@
-include .env
+ifneq ($(shell echo $FLASK_APP), api)
+	include .env
+endif
 
 start:
 	flask run
