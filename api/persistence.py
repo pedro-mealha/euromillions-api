@@ -1,3 +1,5 @@
+from api import db
+
 def get_results(year: int, dates: list, limit = None, orderBy = None) -> list:
     sql = "SELECT * FROM results"
     vars = []
@@ -22,7 +24,6 @@ def get_results(year: int, dates: list, limit = None, orderBy = None) -> list:
 
     db.getCursor().execute(sql, vars)
     results = db.getCursor().fetchall()
-    db.close()
 
     return results
 
@@ -34,17 +35,14 @@ def get_latest_result() -> dict:
     return None
 
 def get_result_by_id(contest_id: int) -> list:
-    db = Database()
     sql = "SELECT * FROM results WHERE contest_id = %s"
 
     db.getCursor().execute(sql, [contest_id])
     result = db.getCursor().fetchone()
-    db.close()
 
     return result
 
 def insert_contests(contests: list) -> bool:
-    db = Database()
     sql = "INSERT INTO results (contest_id, numbers, stars, date, prize, has_winner) VALUES "
     vars = []
     for index, contest in enumerate(contests):
@@ -57,7 +55,6 @@ def insert_contests(contests: list) -> bool:
 
     db.getCursor().execute(sql, vars)
     db.commit()
-    db.close()
 
     return True
 
