@@ -5,14 +5,14 @@ from bs4 import BeautifulSoup
 import api.persistence as persistence
 import api.external as external
 
-def get_results(year: int, dates: list) -> list:
-    return persistence.get_results(year, dates)
+def get_draws(year: int, dates: list) -> list:
+    return persistence.get_draws(year, dates)
 
-def get_result(contest_id: int) -> list:
-    return persistence.get_result_by_id(contest_id)
+def get_draw(draw_id: int) -> list:
+    return persistence.get_draw_by_id(draw_id)
 
-def parse_new_results() -> bool:
-    latest = persistence.get_latest_result()
+def parse_new_draws() -> bool:
+    latest = persistence.get_latest_draw()
     if latest == None:
         return False
 
@@ -21,11 +21,12 @@ def parse_new_results() -> bool:
 
     html = BeautifulSoup(page.content, 'html.parser')
 
-    latest_contest_id_parsed = int(str(latest['contest_id'])[:2])
+    latest_draw_id_parsed = int(str(latest['draw_id'])[:2])
 
-    contests = []
+    draws = []
     results = html.find(id='content').find('tbody').find_all('tr')
-    results.reverse() # so we start to parse contests from oldest to newest
+    results.reverse() # so we start to parse draws from oldest to newest
+
     for result in results:
         result_data = result.find_all('td', class_='centre')
         if len(result_data) == 0:
@@ -46,12 +47,12 @@ def parse_new_results() -> bool:
         numbers_string = '{' + ','.join(str(number) for number in numbers) + '}'
         stars_string = '{' + ','.join(str(star) for star in stars) + '}'
 
-        latest_contest_id_parsed += 1
-        contest_id = int(str(latest_contest_id_parsed) + result_date.strftime('%Y'))
+        latest_draw_id_parsed += 1
+        draw_id = int(str(latest_draw_id_parsed) + result_date.strftime('%Y'))
 
-        contests.append([contest_id, numbers_string, stars_string, date, prize, has_winner])
+        draws.append([draw_id, numbers_string, stars_string, date, prize, has_winner])
 
-    if len(contests) > 0:
-        return persistence.insert_contests(contests)
+    if len(draws) > 0:
+        return persistence.insert_draws(draws)
 
     return True

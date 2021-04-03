@@ -1,1 +1,1 @@
-web: gunicorn api:'create_app()'
+web: make migrate; gunicorn api:'create_app()'

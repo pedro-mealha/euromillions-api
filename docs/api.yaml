@@ -3,14 +3,14 @@ servers:
   - url: 'https://euro-millions-api.herokuapp.com'
 info:
   description: >-
-    This is an public API for euromillions results and statistics. An REST API built to be fast, flexible and simple.
+    This is an public API for euromillions draws results and statistics. An REST API built to be fast, flexible and simple.
   version: 0.1.0
   title: Euromillions API
   contact:
     name: WeNeedThePoh
     url: 'https://github.com/WeNeedThePoh'
 paths:
-  /results:
+  /draws:
     parameters:
       - in: query
         name: year
@@ -24,26 +24,26 @@ paths:
         schema:
             type: string
     get:
-      summary: Fetch all contest results
+      summary: Fetch all draws results
       tags:
-        - results
+        - draws
       responses:
         '200':
-          description: List of all contest results
+          description: List of all draws results
           content:
             application/json:
               schema:
-                $ref: 'schemas/result.yaml'
+                $ref: 'schemas/draw.yaml'
               example:
-                $ref: 'examples/results.json'
+                $ref: 'examples/draws.json'
     post:
-      summary: Fetch and add new contents results. This is a cron job.
+      summary: Fetch and add new draws results. This is a cron job.
       tags:
-        - results
+        - draws
       responses:
         '201':
-          description: The new results were successfully parsed and inserted.
-  /results/{id}:
+          description: The new draws were successfully parsed and inserted.
+  /draws/{id}:
     parameters:
       - name: id
         in: path
@@ -52,15 +52,15 @@ paths:
           type: integer
         example: 202105
     get:
-      summary: Fetch a specific contest result.
+      summary: Fetch a specific draw result.
       tags:
-        - results
+        - draws
       responses:
         '200':
-          description: Contest result data.
+          description: Contest draw data.
           content:
             application/json:
               schema:
-                $ref: 'schemas/result.yaml'
+                $ref: 'schemas/draw.yaml'
               example:
-                $ref: 'examples/result.json'
+                $ref: 'examples/draw.json'

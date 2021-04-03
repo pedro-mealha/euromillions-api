@@ -1,7 +1,7 @@
 from api import db
 
-def get_results(year: int, dates: list, limit = None, orderBy = None) -> list:
-    sql = "SELECT * FROM results"
+def get_draws(year: int, dates: list, limit = None, orderBy = None) -> list:
+    sql = "SELECT * FROM draws"
     vars = []
 
     if year != None:
@@ -23,35 +23,35 @@ def get_results(year: int, dates: list, limit = None, orderBy = None) -> list:
         vars.append(limit)
 
     db.getCursor().execute(sql, vars)
-    results = db.getCursor().fetchall()
+    draws = db.getCursor().fetchall()
 
-    return results
+    return draws
 
-def get_latest_result() -> dict:
-    latest = get_results(None, None, 1, ["id", "DESC"])
+def get_latest_draw() -> dict:
+    latest = get_draws(None, None, 1, ["id", "DESC"])
     if len(latest) > 0:
         return latest[0]
 
     return None
 
-def get_result_by_id(contest_id: int) -> list:
-    sql = "SELECT * FROM results WHERE contest_id = %s"
+def get_draw_by_id(draw_id: int) -> list:
+    sql = "SELECT * FROM draws WHERE draw_id = %s"
 
-    db.getCursor().execute(sql, [contest_id])
-    result = db.getCursor().fetchone()
+    db.getCursor().execute(sql, [draw_id])
+    draw = db.getCursor().fetchone()
 
-    return result
+    return draw
 
-def insert_contests(contests: list) -> bool:
-    sql = "INSERT INTO results (contest_id, numbers, stars, date, prize, has_winner) VALUES "
+def insert_draws(draws: list) -> bool:
+    sql = "INSERT INTO draws (draw_id, numbers, stars, date, prize, has_winner) VALUES "
     vars = []
-    for index, contest in enumerate(contests):
-        if index == 0:
+    for i, draw in enumerate(draws):
+        if i == 0:
             sql += "(%s, %s, %s, %s, %s, %s)"
         else:
             sql += ", (%s, %s, %s, %s, %s, %s)"
 
-        vars.extend(contest)
+        vars.extend(draw)
 
     db.getCursor().execute(sql, vars)
     db.commit()
