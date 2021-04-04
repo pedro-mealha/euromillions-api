@@ -130,3 +130,5 @@ dmypy.json
 
 # random
 .vscode
+
+.DS_Store

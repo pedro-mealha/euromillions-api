@@ -1,5 +1,6 @@
+import os
 from api.utils.db import Database
-from flask import Blueprint, request, jsonify, request
+from flask import Blueprint, request, jsonify, request, send_from_directory
 from api import service, db
 
 bp = Blueprint('api', __name__)
@@ -39,3 +40,10 @@ def get_draw(draw_id):
         return jsonify(contest), 200
 
     return "", 404
+
+@bp.route('/')
+@bp.route('/docs')
+def get_docs():
+    ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
+    file_path = os.path.join(ROOT_DIR, 'docs')
+    return send_from_directory(file_path, 'api.html')

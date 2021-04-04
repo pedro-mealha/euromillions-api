@@ -23,6 +23,8 @@ For the documentation we used the OpenAPI specification. We have all the availab
 
 Regarding the database we use the Database markup language -- DBML for short. Again it's really amazing and can put any new joiner into speed right away. There is also an online tool to visualize the table schemas.
 
+**You can check the current docs** [here: /](https://euro-millions-api.herokuapp.com) or [here: /docs](https://euro-millions-api.herokuapp.com/docs)
+
 ## Third-party data
 
 For the euromillions draws results, we used the website https://www.euro-millions.com. It has pages with historic data for all existing draws results. We don't consume any API, we parsed the webpage for the specific data that we need.

@@ -22,3 +22,6 @@ logs_prod:
 
 start_docker:
 	docker-compose up --build -d
+
+generate_docs:
+	cd docs && redoc-cli bundle api.yaml --options.expandResponses="all" --options.hideDownloadButton="true"
