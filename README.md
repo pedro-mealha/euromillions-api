@@ -29,6 +29,12 @@ Regarding the database we use the Database markup language -- DBML for short. Ag
 
 For the euromillions draws results, we used the website https://www.euro-millions.com. It has pages with historic data for all existing draws results. We don't consume any API, we parsed the webpage for the specific data that we need.
 
+For new draws we have the following cronjob running:
+```
+# Every Tuesday and Friday every 15min during 21h-23h
+*/15 21-23 * * 2,5 curl --location --request POST 'https://euro-millions-api.herokuapp.com/draws'
+```
+
 ## Deployments (CI/CD)
 
 We are using heroku for hosting, so we have heroku directly connect to github, so every time we push to `main` we will trigger a new deploy to production. With this we have a true CI/CD deployment strategy, so whenever we push something is going straight to production.
