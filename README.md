@@ -32,7 +32,7 @@ For the euromillions draws results, we used the website https://www.euro-million
 For new draws we have the following cronjob running:
 ```
 # Every Tuesday and Friday every 15min during 21h-23h
-*/15 21-23 * * 2,5 curl --location --request POST 'https://euro-millions-api.herokuapp.com/draws'
+*/15 21-23 * * 2,5 curl -X POST 'https://euro-millions-api.herokuapp.com/draws'
 ```
 
 ## Deployments (CI/CD)
