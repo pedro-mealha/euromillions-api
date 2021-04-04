@@ -12,6 +12,8 @@
 
 A small REST API for Euromillions contest. Here you will find all results since 2004 and some statistics/analytics.
 
+The endpoint to fecth draws has some cool features for filtering the draws by `year` or `dates`.
+
 This was done due to the lack of a way to get this data easily. As this information is of public knowledge, institutions should provide an API for it.
 Meanwhile, with these endpoints, the community can build amazing products around the Euromillions context, either a mobile app or a web app.
 

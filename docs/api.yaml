@@ -24,6 +24,16 @@ paths:
         required: false
         schema:
             type: string
+        examples:
+          startDate:
+            summary: Filter draws with a start date
+            value: '2021-01-01'
+          betweenDates:
+            summary: Filter draws with a start date and a end date
+            value: '2021-01-01,2021-02-01'
+          endDate:
+            summary: Filter draws with a end date
+            value: ',2021-02-01'
       summary: Fetch all draws results
       tags:
         - draws
