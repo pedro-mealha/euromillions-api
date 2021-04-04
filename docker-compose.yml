@@ -1,0 +1,23 @@
+version: '3'
+services:
+  euromillions-api:
+    container_name: euromillions-api
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
+  db:
+    container_name: postgres
+    image: postgres:13.2
+    restart: unless-stopped
+    environment:
+        POSTGRES_DB: 'euromillions'
+        POSTGRES_USER: 'root'
+        POSTGRES_PASSWORD: 'euroadmin'
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/var/lib/postgresql

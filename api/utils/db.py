@@ -5,6 +5,9 @@ import psycopg2.extras
 class Database():
     def __init__(self):
         try:
+            if hasattr(self, 'conn') and self.conn != None:
+                self.close()
+
             self.conn = psycopg2.connect(
                 database=os.getenv("DB_SCHEMA"),
                 user=os.getenv("DB_USER"),
