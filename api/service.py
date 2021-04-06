@@ -31,7 +31,6 @@ def parse_new_draws() -> bool:
             continue
 
         date = draw_date.strftime('%Y-%m-%d')
-        print(draw_date_href)
         prize, has_winner = external.get_details(draw_date_href)
         numbers = external.get_numbers(latest_draw)
         stars = external.get_stars(latest_draw)
