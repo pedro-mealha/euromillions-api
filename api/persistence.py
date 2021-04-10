@@ -1,6 +1,6 @@
 from api import db
 
-def get_draws(year: int, dates: list, limit = None, orderBy = None) -> list:
+def get_draws(year: int, dates: list, limit = None, orderBy = ["date", "ASC"]) -> list:
     sql = "SELECT * FROM draws"
     vars = []
 
