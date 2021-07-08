@@ -23,5 +23,8 @@ logs_prod:
 start_docker:
 	docker-compose up --build -d
 
+start_db:
+	docker-compose up --build -d -- db
+
 generate_docs:
 	redoc-cli bundle ./docs/api.yaml --options.expandResponses="all" --options.hideDownloadButton="true" && mv redoc-static.html ./docs/api.html

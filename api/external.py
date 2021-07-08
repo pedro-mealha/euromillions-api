@@ -54,7 +54,7 @@ def get_details(details_route: str) -> list:
     prize = 0
     has_winner = False
 
-    row = html.table.find('tbody').find('tr')
+    row = html.find(id="PrizePT").find('tbody').find('tr')
     if row is None:
         return [prize, has_winner]
 
