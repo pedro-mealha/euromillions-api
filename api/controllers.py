@@ -7,7 +7,7 @@ bp = Blueprint('api', __name__)
 
 db = Database()
 
-@bp.route('/draws', methods=['POST'])
+@bp.post('/draws')
 def parse_new_draws():
     added = service.parse_new_draws()
 
@@ -17,7 +17,7 @@ def parse_new_draws():
     else:
         return jsonify({"error": True}), 400
 
-@bp.route('/draws', methods=['GET'])
+@bp.get('/draws')
 def get_draws():
     year = request.args.get('year')
     dates = request.args.get('dates')
@@ -30,7 +30,7 @@ def get_draws():
 
     return jsonify(results), 200
 
-@bp.route('/draws/<int:draw_id>')
+@bp.get('/draws/<int:draw_id>')
 def get_draw(draw_id):
     contest = service.get_draw(draw_id)
 
@@ -41,8 +41,8 @@ def get_draw(draw_id):
 
     return "", 404
 
-@bp.route('/')
-@bp.route('/docs')
+@bp.get('/')
+@bp.get('/docs')
 def get_docs():
     ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
     file_path = os.path.join(ROOT_DIR, 'docs')
