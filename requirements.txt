@@ -1,7 +1,7 @@
 beautifulsoup4==4.9.3
 Flask==1.1.2
 gunicorn==20.1.0
-psycopg2==2.8.6
+psycopg2==2.9.1
 python-dotenv==0.15.0
 requests==2.25.1
 yoyo-migrations==7.3.1
