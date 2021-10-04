@@ -43,4 +43,4 @@ def get_draw(draw_id):
 
 @bp.get('/')
 def index():
-    return "Hi there! Have a look at our documentation: ", 200
+    return "Hi there! Have a look at our documentation: https://euromillios-api.readme.io", 200

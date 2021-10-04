@@ -21,11 +21,11 @@ My goal will also be to build a web app to allow to generate numbers to play bas
 
 ## Docs
 
-For the documentation we used the OpenAPI specification. We have all the available endpoints with the schemas and examples for each use case. It's not just because is an industry standard to use it but also because is really easy to update and to read. There is also a lot of tools to convert the yaml file to a beautiful HTML.
+For the documentation we used the OpenAPI specification. We have all the available endpoints with the schemas and examples for each use case. It's not just because is an industry standard to use it but also because is really easy to update and to read.
 
 Regarding the database we use the Database markup language -- DBML for short. Again it's really amazing and can put any new joiner into speed right away. There is also an online tool to visualize the table schemas.
 
-**You can check the current docs** [here: /](https://euro-millions-api.herokuapp.com) or [here: /docs](https://euro-millions-api.herokuapp.com/docs)
+**You can check the current docs** [here](https://euromillios-api.readme.io)
 
 ## Third-party data
 

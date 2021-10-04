@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2021-10-04
+
+### Added
+- Move documentation to readme.io and removed external files for openapi.
+- add github action to upload new changes in api documentation to readme
+### Updated
+- Remove endpoint `/docs`.
+- update index endpoint to point to new documentation location.
+- remove doc html file at is no longer used
+
 ## [2.2.6] - 2021-10-01
 ### Maintenance
 - Updates code to reflect changes on new flask version
@@ -87,6 +97,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial base files
 
+[2.3.0]: https://github.com/WeNeedThePoh/euromillions-api/compare/2.2.6...2.3.0
 [2.2.6]: https://github.com/WeNeedThePoh/euromillions-api/compare/2.2.5...2.2.6
 [2.2.5]: https://github.com/WeNeedThePoh/euromillions-api/compare/2.2.4...2.2.5
 [2.2.4]: https://github.com/WeNeedThePoh/euromillions-api/compare/2.2.3...2.2.4
