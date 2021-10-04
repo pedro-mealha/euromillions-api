@@ -42,8 +42,5 @@ def get_draw(draw_id):
     return "", 404
 
 @bp.get('/')
-@bp.get('/docs')
-def get_docs():
-    ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
-    file_path = os.path.join(ROOT_DIR, 'docs')
-    return send_from_directory(file_path, 'api.html')
+def index():
+    return "Hi there! Have a look at our documentation: ", 200

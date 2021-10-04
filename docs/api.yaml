@@ -4,7 +4,7 @@ servers:
 info:
   description: >-
     This is an public API for euromillions draws results and statistics. An REST API built to be fast, flexible and simple.
-  version: 2.2.4
+  version: 2.2.6
   title: Euromillions API
   contact:
     name: WeNeedThePoh
@@ -43,9 +43,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'schemas/draws.yaml'
-              example:
-                $ref: 'examples/draws.json'
+                $ref: '#/components/schemas/Draws'
+              examples:
+                draws:
+                  $ref: '#/components/examples/Draws'
     post:
       summary: Fetch and add new draws results. This is a cron job.
       tags:
@@ -71,6 +72,90 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'schemas/draw.yaml'
-              example:
-                $ref: 'examples/draw.json'
+                $ref: '#/components/schemas/Draw'
+              examples:
+                draw:
+                  $ref: '#/components/examples/Draw'
+
+components:
+  schemas:
+    Draw:
+      type: object
+      properties:
+        id:
+          type: integer
+        draw_id:
+          type: integer
+        numbers:
+          type: array
+        stars:
+          type: array
+        date:
+          type: string
+        prize:
+          type: integer
+        has_winner:
+          type: boolean
+    Draws:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          draw_id:
+            type: integer
+          numbers:
+            type: array
+          stars:
+            type: array
+          date:
+            type: string
+          prize:
+            type: integer
+          has_winner:
+            type: boolean
+  examples:
+    Draw:
+      value:
+        {
+          "id": 12,
+          "draw_id": 262021,
+          "numbers": [1, 5, 24, 50, 42],
+          "stars": [2, 6],
+          "date": "2021-02-04",
+          "prize": 120000000,
+          "has_winner": false
+        }
+
+    Draws:
+      value:
+        [
+            {
+                "id": 1,
+                "draw_id": 262021,
+                "numbers": [1, 5, 24, 50, 42],
+                "stars": [2, 6],
+                "date": "2021-02-04",
+                "prize": 120000000,
+                "has_winner": false
+            },
+            {
+                "id": 2,
+                "draw_id": 272021,
+                "numbers": [7, 26, 34, 30, 46],
+                "stars": [1, 10],
+                "date": "2021-02-08",
+                "prize": 150000000,
+                "has_winner": true
+            },
+            {
+                "id": 3,
+                "draw_id": 282021,
+                "numbers": [20, 25, 34, 10, 22],
+                "stars": [4, 7],
+                "date": "2021-02-15",
+                "prize": 15000000,
+                "has_winner": false
+            }
+        ]
