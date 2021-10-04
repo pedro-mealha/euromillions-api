@@ -15,4 +15,3 @@ jobs:
         with:
           readme-oas-key: ${{ secrets.README_TOKEN }}
           oas-file-path: './docs/api.yaml'
-          api-version: 'v2.3'
