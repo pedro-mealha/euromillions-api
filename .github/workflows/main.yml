@@ -1,4 +1,4 @@
-name: Deploy to staging
+name: Main
 on:
   push:
     branches:
@@ -27,6 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build:
+    needs: [linter]
     runs-on: ubuntu-latest
     environment: staging
 
@@ -49,7 +50,7 @@ jobs:
     environment: staging
 
     steps:
-      - name: Deploy api
+      - name: Deploy API
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: heroku container:release -a staging-euro-millions-api web
