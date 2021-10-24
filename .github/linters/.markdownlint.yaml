@@ -1,0 +1,6 @@
+default: true
+
+# MD024/no-duplicate-heading/no-duplicate-header - Multiple headings with the same content
+MD024:
+  allow_different_nesting: false
+  siblings_only: false

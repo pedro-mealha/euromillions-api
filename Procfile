@@ -1,1 +1,0 @@
-web: make migrate; gunicorn api:'create_app()'
