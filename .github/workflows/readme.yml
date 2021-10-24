@@ -1,8 +1,7 @@
-name: Sync OAS to ReadMe
+name: Open API docs
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
     paths:
       - 'docs/**'
 
