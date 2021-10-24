@@ -14,7 +14,7 @@ load_dotenv(dotenv_path)
 
 db = Database()
 
-def app():
+def create_app():
     app = Flask(__name__)
     app.json_encoder = CustomJSONEncoder
     app.config.from_mapping(

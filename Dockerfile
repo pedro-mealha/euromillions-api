@@ -22,4 +22,4 @@ WORKDIR /app
 
 EXPOSE $PORT
 
-CMD gunicorn --bind 0.0.0.0:$PORT api:app
+CMD gunicorn --bind 0.0.0.0:$PORT api:'create_app()'
