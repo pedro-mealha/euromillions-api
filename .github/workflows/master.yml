@@ -20,6 +20,15 @@ jobs:
       - name: Build and push
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          FLASK_APP: api
+          FLASK_ENV: development
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_SCHEMA: ${{ secrets.DB_SCHEMA }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          DB_PORT: 5432
+          EUROMILLIONS_WEB_BASE_URL: https://www.euro-millions.com
+          EUROMILLIONS_MIN_YEAR: 2004
         run: heroku container:push -a staging-euro-millions-api web
 
   deploy:

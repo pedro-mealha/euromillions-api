@@ -20,6 +20,9 @@ migrate_rollback:
 logs_prod:
 	heroku logs --tail --app euro-millions-api
 
+logs_stg:
+	heroku logs --tail --app staging-euro-millions-api
+
 start_docker:
 	docker-compose up --build -d
 
