@@ -4,11 +4,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://opensource.org/licenses/MIT)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/WeNeedThePoh/euromillions-api/graphs/commit-activity)
 
-***Live URL:*** https://euro-millions-api.herokuapp.com
+***Live URL:*** <https://euro-millions-api.herokuapp.com>
 
 ***Tech stack***: Python, Flask, PostgreSQL, Docker
 
-***DISCLAIMER***: *Results data in this API are from https://www.euro-millions.com website HTML directly. The data is for informational purposes only, you should not construe any such information or other material as financial or other advice. Nothing contained on this API constitutes a solicitation, recommendation, endorsement, or offer to buy Euromillions tickets. This API is not affiliated in any kind to any Euromillions contest.*
+***DISCLAIMER***:
+*Results data in this API are parsed from <https://www.euro-millions.com> website. The data is for informational purposes only, you should not construe such information or other data as financial advice. Nothing contained on this API constitutes a solicitation, recommendation, endorsement, or offer to buy Euromillions tickets. This API is not affiliated in any kind to Euromillions organization.*
 
 A small REST API for Euromillions contest. Here you will find all results since 2004 and some statistics/analytics.
 
@@ -29,10 +30,10 @@ Regarding the database we use the Database markup language -- DBML for short. Ag
 
 ## Third-party data
 
-For the euromillions draws results, we used the website https://www.euro-millions.com. It has pages with historic data for all existing draws results. We don't consume any API, we parsed the webpage for the specific data that we need.
+For the euromillions draws results, we used the website <https://www.euro-millions.com>. It has pages with historic data for all existing draws results. We don't consume any API, we parsed the webpage for the specific data that we need.
 
 For new draws we have the following cronjob running:
-```
+```bash
 # Every Tuesday and Friday every 15min during 21h-23h
 */15 21-23 * * 2,5 curl -X POST 'https://euro-millions-api.herokuapp.com/draws'
 ```
@@ -50,7 +51,7 @@ To run the flask app we are simply using a Procfile and using the `web` command 
 We have two ways to working locally on this project: docker or run flash app.
 
 To get started clone the repo
-```
+```bash
 git clone https://github.com/WeNeedThePoh/euromillions-api
 
 cd euromillions-api
@@ -58,7 +59,7 @@ cd euromillions-api
 
 ### Using docker
 Build and start docker container
-```
+```bash
 make start_docker
 ```
 
@@ -69,12 +70,12 @@ This will start a container with a postgres database and another container with 
 Make sure you have python 3.9 installed and a postgres database.
 
 Install requirements.
-```
+```bash
 pip3.9 install -r requirements.txt
 ```
 
 Run flask app
-```
+```bash
 make start
 ```
 
@@ -83,12 +84,12 @@ For migrations we are using [yoyo](https://pypi.org/project/yoyo-migrations/).
 It's really straight forward but nonetheless we have some commands on Makefile:
 
 To run migrations:
-```
+```bash
 make migrate
 ```
 
 To rollback last migration:
-```
+```bash
 make migrate_rollback
 ```
 
@@ -96,6 +97,6 @@ To create a new migration it's a little tricky, because we didn't like the .py f
 
 Just follow the pattern that already exists and it should be fairly easy.
 
-# License
+## License
 
 MIT Licensed (file [LICENSE](LICENSE)).
