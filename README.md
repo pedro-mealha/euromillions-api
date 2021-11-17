@@ -1,5 +1,5 @@
 # Euromillions Public API
-![Python: 3.9](https://img.shields.io/badge/Python-3.9-blue)
+![Python: 3.10](https://img.shields.io/badge/Python-3.10-blue)
 ![pip: 21.3.1](https://img.shields.io/badge/pip-21.3.1-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://opensource.org/licenses/MIT)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/WeNeedThePoh/euromillions-api/graphs/commit-activity)
