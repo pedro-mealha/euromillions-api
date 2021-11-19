@@ -13,7 +13,7 @@ COPY . /app
 
 # --
 
-FROM python:3.10.0-alpine
+FROM builder
 
 COPY --from=builder /install /usr/local
 COPY --from=builder /app /app
