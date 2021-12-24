@@ -7,21 +7,51 @@ on:
       - 'docs/**'
 
 jobs:
+  terraform:
+    name: Execute Terraform
+    runs-on: ubuntu-latest
+    environment: staging-terraform
+
+    defaults:
+      run:
+        working-directory: configs/terraform
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ~1.0
+
+      - name: Terraform Init
+        run: terraform init -backend-config="conn_str=${{ secrets.PG_BACKEND_DB_URL }}"
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
+        env:
+          TF_WORKSPACE: staging
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TF_VAR_heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          TF_VAR_heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          TF_VAR_flask_env: development
+
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Login to Heroku Container registry
-        env: 
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login 
-
-      - name: Build and push
+        run: heroku container:login
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:push -a staging-euro-millions-api web
+
+      - name: Build and push
+        run: heroku container:push -a staging-euromillions-api web
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
   deploy:
     needs: [build]
@@ -30,6 +60,6 @@ jobs:
 
     steps:
       - name: Deploy API
+        run: heroku container:release -a staging-euromillions-api web
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:release -a staging-euro-millions-api web

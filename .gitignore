@@ -132,3 +132,6 @@ dmypy.json
 .vscode
 
 .DS_Store
+
+.terraform*
+*.tfvars
