@@ -13,7 +13,7 @@ resource "heroku_app" "euromillions-api" {
 }
 
 resource "heroku_addon" "database" {
-  name = "euromillions-api-db"
+  name = "${terraform.workspace}-euromillions-api-db"
   plan = "heroku-postgresql:hobby-dev"
 
   app = heroku_app.euromillions-api.name

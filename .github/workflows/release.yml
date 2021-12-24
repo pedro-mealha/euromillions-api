@@ -47,7 +47,7 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
       - name: Build and push
-        run: heroku container:push -a euromillions-api web
+        run: heroku container:push -a prod-euromillions-api web
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
@@ -58,6 +58,6 @@ jobs:
 
     steps:
       - name: Deploy API
-        run: heroku container:release -a euromillions-api web
+        run: heroku container:release -a prod-euromillions-api web
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
