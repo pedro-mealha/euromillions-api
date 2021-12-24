@@ -52,7 +52,7 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
   deploy:
-    needs: [build]
+    needs: [build, terraform]
     runs-on: ubuntu-latest
     environment: production
 
