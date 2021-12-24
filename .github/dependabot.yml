@@ -3,7 +3,7 @@ updates:
   - package-ecosystem: "pip"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -12,5 +12,10 @@ updates:
 
   - package-ecosystem: "docker"
     directory: "/"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "terraform"
+    directory: "/configs/terraform"
     schedule:
       interval: "weekly"

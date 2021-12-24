@@ -1,10 +1,16 @@
 openapi: 3.0.3
 servers:
-  - url: 'https://euro-millions-api.herokuapp.com'
+  - url: https://{environment}-euromillions-api.herokuapp.com'
+    variables:
+      environment:
+        default: prod
+        enum:
+          - prod
+          - staging
 info:
   description: >-
     This is an public API for euromillions draws results and statistics. An REST API built to be fast, flexible and simple.
-  version: 2.3.0
+  version: 2.3.4
   title: Euromillions API
   contact:
     name: WeNeedThePoh

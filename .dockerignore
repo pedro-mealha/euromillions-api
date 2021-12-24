@@ -1,3 +1,5 @@
 docs/
+configs/
 setup.py
 .github/
+db/
