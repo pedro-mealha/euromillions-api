@@ -1,12 +1,13 @@
 # Euromillions Public API
+
 ![Python: 3.10](https://img.shields.io/badge/Python-3.10-blue)
 ![pip: 21.3.1](https://img.shields.io/badge/pip-21.3.1-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://opensource.org/licenses/MIT)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/WeNeedThePoh/euromillions-api/graphs/commit-activity)
 
-***Live URL:*** <https://euro-millions-api.herokuapp.com>
+***Live URL:*** <https://prod-euromillions-api.herokuapp.com>
 
-***Tech stack***: Python, Flask, PostgreSQL, Docker
+***Tech stack***: Python, Flask, PostgreSQL, Docker, Terraform, Github Actions
 
 ***DISCLAIMER***:
 *Results data in this API are parsed from <https://www.euro-millions.com> website. The data is for informational purposes only, you should not construe such information or other data as financial advice. Nothing contained on this API constitutes a solicitation, recommendation, endorsement, or offer to buy Euromillions tickets. This API is not affiliated in any kind to Euromillions organization.*
@@ -33,24 +34,28 @@ Regarding the database we use the Database markup language -- DBML for short. Ag
 For the euromillions draws results, we used the website <https://www.euro-millions.com>. It has pages with historic data for all existing draws results. We don't consume any API, we parsed the webpage for the specific data that we need.
 
 For new draws we have the following cronjob running:
+
 ```bash
 # Every Tuesday and Friday every 15min during 21h-23h
-*/15 21-23 * * 2,5 curl -X POST 'https://euro-millions-api.herokuapp.com/draws'
+*/15 21-23 * * 2,5 curl -X POST 'https://prod-euromillions-api.herokuapp.com/draws'
 ```
 
 ## Deployments (CI/CD)
 
-We are using heroku for hosting, so we have heroku directly connect to github, so every time we push to `main` we will trigger a new deploy to production. With this we have a true CI/CD deployment strategy, so whenever we push something is going straight to production.
+We took advantage of the power and simplicity that Github Actions have. It was easy to integrate our deployment flow for staging and production.
+We also have Terraform running in all our workflows. Currently, we are using the Heroku container registry to push a docker image that we will use to run our API. Because Heroku doesn't allow us to have different environments we needed to create different apps for staging and prod so we need to repeat the process of pushing docker images. As soon as we push the images we only need to make a new release to have a new version up and running.
+This is a big improvement as now our API is running in a container, it's easier to deploy and maintain.
 
-We are using only one buildpack, that is the [python buildpack](https://github.com/heroku/heroku-buildpack-python) from heroku themselves.
+## Terraform
 
-To run the flask app we are simply using a Procfile and using the `web` command to initiate the flask app.
+Luckily we can use Terraform to manage Heroku infra with code. As there isn't much to do, right now we use terraform to create the app, the app configs and its DB. This is integrated into our CI in the staging and prod workflows with their respective workspaces.
 
 ## Development
 
 We have two ways to working locally on this project: docker or run flash app.
 
 To get started clone the repo
+
 ```bash
 git clone https://github.com/WeNeedThePoh/euromillions-api
 
@@ -58,37 +63,44 @@ cd euromillions-api
 ```
 
 ### Using docker
+
 Build and start docker container
+
 ```bash
 make start_docker
 ```
 
 This will start a container with a postgres database and another container with a python image. In the python container it will copy all the projects file, install the requirements and lastly run the flask app.
 
-
 ### Without docker
+
 Make sure you have python 3.9 installed and a postgres database.
 
 Install requirements.
+
 ```bash
 pip3.9 install -r requirements.txt
 ```
 
 Run flask app
+
 ```bash
 make start
 ```
 
 ### Migrations
+
 For migrations we are using [yoyo](https://pypi.org/project/yoyo-migrations/).
 It's really straight forward but nonetheless we have some commands on Makefile:
 
 To run migrations:
+
 ```bash
 make migrate
 ```
 
 To rollback last migration:
+
 ```bash
 make migrate_rollback
 ```

@@ -56,7 +56,6 @@ jobs:
 
       - name: Terraform Staging Plan
         run: terraform plan -no-color
-        continue-on-error: true
         env:
           TF_WORKSPACE: staging
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -66,7 +65,6 @@ jobs:
 
       - name: Terraform Prod Plan
         run: terraform plan -no-color
-        continue-on-error: true
         env:
           TF_WORKSPACE: prod
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
