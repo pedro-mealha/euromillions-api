@@ -13,10 +13,10 @@ resource "heroku_app" "euromillions-api" {
 }
 
 resource "heroku_addon" "database" {
+  app_id = heroku_app.euromillions-api.id
+
   name = "${terraform.workspace}-euromillions-api-db"
   plan = "heroku-postgresql:hobby-dev"
-
-  app = heroku_app.euromillions-api.name
 }
 
 locals {
