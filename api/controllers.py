@@ -1,21 +1,11 @@
 import os
 from api.utils.db import Database
-from flask import Blueprint, request, jsonify, request, send_from_directory
+from flask import Blueprint, request, jsonify, request
 from api import service, db
 
 bp = Blueprint('api', __name__)
 
 db = Database()
-
-@bp.post('/draws')
-def parse_new_draws():
-    added = service.parse_new_draws()
-
-    db.close()
-    if added:
-        return "", 201
-    else:
-        return jsonify({"error": True}), 400
 
 @bp.get('/draws')
 def get_draws():

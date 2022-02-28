@@ -53,13 +53,6 @@ paths:
               examples:
                 draws:
                   $ref: '#/components/examples/Draws'
-    post:
-      summary: Fetch and add new draws results. This is a cron job.
-      tags:
-        - draws
-      responses:
-        '201':
-          description: The new draws were successfully parsed and inserted.
   /draws/{id}:
     parameters:
       - name: id

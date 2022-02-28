@@ -1,12 +1,22 @@
+SCRIPTS_PATH=scripts
+CRONJOBS_PATH=${SCRIPTS_PATH}/cronjobs
+
 ifneq ("$(wildcard ./.env)","")
 	include .env
 endif
 
+deps:
+	pip3 install -r requirements.txt
+	python3 setup.py install --user
+
 start:
 	flask run
 
+add_draws:
+	python3 $(CRONJOBS_PATH)/add_new_draws.py
+
 setup:
-	python3.9 setup.py $(year)
+	python3 $(SCRIPTS_PATH)/setup.py $(year)
 
 new_migration:
 	yoyo new ./db/migrations -m "$(name)"
