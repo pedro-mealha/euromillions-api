@@ -12,7 +12,7 @@ deps:
 start:
 	flask run
 
-add_draws:
+add_draws: deps
 	python3 $(CRONJOBS_PATH)/add_new_draws.py
 
 setup:
