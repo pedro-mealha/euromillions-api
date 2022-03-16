@@ -18,10 +18,6 @@ FROM builder
 COPY --from=builder /install /usr/local
 COPY --from=builder /app /app
 
-# Allow to exec into docker container
-ADD ./.profile.d /app/.profile.d
-RUN rm /bin/sh && ln -s /bin/bash /bin/sh
-
 WORKDIR /app
 
 EXPOSE $PORT
