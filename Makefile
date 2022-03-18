@@ -12,29 +12,29 @@ deps:
 start:
 	flask run
 
-add_draws: deps
+add-draws: deps
 	python3 $(CRONJOBS_PATH)/add_new_draws.py
 
-setup:
+setup: deps
 	python3 $(SCRIPTS_PATH)/setup.py $(year)
 
-new_migration:
+new-migration:
 	yoyo new ./db/migrations -m "$(name)"
 
 migrate:
 	yoyo apply --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_SCHEMA} ./db/migrations
 
-migrate_rollback:
+migrate-rollback:
 	yoyo rollback --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_SCHEMA} ./db/migrations
 
-logs_prod:
+logs-prod:
 	heroku logs --tail --app prod-euromillions-api
 
-logs_stg:
+logs-stg:
 	heroku logs --tail --app staging-euromillions-api
 
-start_docker:
+start-docker:
 	docker-compose up --build -d
 
-start_db:
+start-db:
 	docker-compose up --build -d -- db
