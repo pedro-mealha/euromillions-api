@@ -37,8 +37,12 @@ For new draws we have the following cronjob running:
 
 ```bash
 # Every Tuesday and Friday every 15min during 21h-23h
-*/15 21-23 * * 2,5 curl -X POST 'https://prod-euromillions-api.herokuapp.com/draws'
+*/15 21-23 * * 2,5 heroku run make add-draws --app prod-euromillions-api
+
+*/15 21-23 * * 2,5 heroku run make add-draws --app staging-euromillions-api
 ```
+
+This command will run the script to add draws inside a clone of our production container. This way we ensure that the code runs in the same enviornment and we don't need an exposed endpoint to do it.
 
 ## Deployments (CI/CD)
 
