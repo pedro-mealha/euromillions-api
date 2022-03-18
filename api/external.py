@@ -34,6 +34,9 @@ def get_date(details_route: str) -> date:
 def get_numbers(html) -> list:
     numbers = []
     balls = html.find_all('li', class_='new ball')
+    if balls[0].text == '-':
+        return numbers
+
     for ball in balls: numbers.append(int(ball.text))
 
     return numbers
@@ -41,6 +44,9 @@ def get_numbers(html) -> list:
 def get_stars(html) -> list:
     stars = []
     balls_star = html.find_all('li', class_='new lucky-star')
+    if balls_star[0].text == '-':
+        return stars
+
     for ball_star in balls_star: stars.append(int(ball_star.text))
 
     return stars
@@ -54,7 +60,11 @@ def get_details(details_route: str) -> list:
     prize = 0
     has_winner = False
 
-    row = html.find(id="PrizePT").find('tbody').find('tr')
+    body = html.find(id="PrizePT")
+    if body is None:
+        return [prize, has_winner]
+
+    row = body.find('tbody').find('tr')
     if row is None:
         return [prize, has_winner]
 

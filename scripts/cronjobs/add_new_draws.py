@@ -29,7 +29,12 @@ def main() -> None:
         date = draw_date.strftime('%Y-%m-%d')
         prize, has_winner = external.get_details(draw_date_href)
         numbers = external.get_numbers(latest_draw)
+        if len(numbers) == 0:
+            continue
+
         stars = external.get_stars(latest_draw)
+        if len(stars) == 0:
+            continue
 
         numbers_string = '{' + ','.join(str(number) for number in numbers) + '}'
         stars_string = '{' + ','.join(str(star) for star in stars) + '}'
