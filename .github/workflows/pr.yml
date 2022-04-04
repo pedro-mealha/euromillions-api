@@ -25,6 +25,7 @@ jobs:
           VALIDATE_MARKDOWN: true
           VALIDATE_TERRAFORM_TFLINT: true
           VALIDATE_TERRAFORM_TERRASCAN: true
+          VALIDATE_OPENAPI: true
           MARKDOWN_CONFIG_FILE: .markdownlint.yaml
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

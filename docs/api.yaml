@@ -10,7 +10,7 @@ servers:
 info:
   description: >-
     This is an public API for euromillions draws results and statistics. An REST API built to be fast, flexible and simple.
-  version: 2.3.4
+  version: 2.4.2
   title: Euromillions API
   contact:
     name: WeNeedThePoh

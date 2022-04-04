@@ -1,0 +1,19 @@
+name: Open API docs
+on:
+  release:
+    types: [published]
+    paths:
+      - 'docs/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Update API docs
+        uses: readmeio/rdme@7.0.1
+        with:
+          rdme: openapi ./docs/api.yaml --key=${{ secrets.README_API_KEY }} --id=${{ secrets.README_API_DEFINITION_ID }}
