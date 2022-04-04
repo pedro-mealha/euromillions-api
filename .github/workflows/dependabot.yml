@@ -1,38 +1,11 @@
 name: Pull request
-on:
-  pull_request:
-    paths-ignore:
-      - 'docs/**'
+on: pull_request_target
 
 jobs:
-  linter:
-    runs-on: ubuntu-latest
-    if: ${{ github.actor != 'dependabot[bot]' }}
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Lint Code Base
-        uses: docker://github/super-linter:slim-v4
-        env:
-          VALIDATE_ALL_CODEBASE: false
-          VALIDATE_PYTHON: true
-          VALIDATE_DOCKERFILE: true
-          VALIDATE_GITHUB_ACTIONS: true
-          VALIDATE_MARKDOWN: true
-          VALIDATE_TERRAFORM_TFLINT: true
-          VALIDATE_TERRAFORM_TERRASCAN: true
-          MARKDOWN_CONFIG_FILE: .markdownlint.yaml
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   terraform:
-    needs: [linter]
     name: Terraform
     runs-on: ubuntu-latest
+    if: ${{ github.actor == 'dependabot[bot]' }}
 
     defaults:
       run:
