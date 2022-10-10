@@ -4,4 +4,4 @@ gunicorn==20.1.0
 psycopg2==2.9.3
 python-dotenv==0.21.0
 requests==2.28.1
-yoyo-migrations==7.3.2
+yoyo-migrations==8.0.0
