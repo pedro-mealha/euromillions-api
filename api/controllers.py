@@ -16,15 +16,12 @@ def get_draws():
         dates = dates.split(',')
 
     results = service.get_draws(year, dates)
-    db.close()
 
     return jsonify(results), 200
 
 @bp.get('/draws/<int:draw_id>')
 def get_draw(draw_id):
     contest = service.get_draw(draw_id)
-
-    db.close()
 
     if contest != None:
         return jsonify(contest), 200

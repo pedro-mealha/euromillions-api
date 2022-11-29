@@ -1,6 +1,7 @@
 import os
 import psycopg2
 import psycopg2.extras
+from urllib.parse import urlparse
 
 class Database():
     def __init__(self):
@@ -8,12 +9,19 @@ class Database():
             if hasattr(self, 'conn') and self.conn != None:
                 self.close()
 
+            result = urlparse(os.getenv("DATABASE_URL"))
+            username = result.username
+            password = result.password
+            database = result.path[1:]
+            hostname = result.hostname
+            port = result.port
+
             self.conn = psycopg2.connect(
-                database=os.getenv("DB_NAME"),
-                user=os.getenv("DB_USER"),
-                password=os.getenv("DB_PASSWORD"),
-                host=os.getenv("DB_HOST"),
-                port=os.getenv("DB_PORT"),
+                database=database,
+                user=username,
+                password=password,
+                host=hostname,
+                port=port,
                 options="-c search_path="+os.getenv("DB_SCHEMA")
             )
             self.cur = self.conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
