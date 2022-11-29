@@ -1,12 +1,10 @@
 name: Main
-# on:
-#   push:
-#     branches:
-#       - main
-#     paths-ignore:
-#       - 'docs/**'
-
-on: [pull_request]
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - 'docs/**'
 
 permissions:
   contents: read
