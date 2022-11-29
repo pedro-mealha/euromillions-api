@@ -80,10 +80,5 @@ jobs:
             -e EUROMILLIONS_MIN_YEAR=2004 \
             -e EUROMILLIONS_WEB_BASE_URL=https://www.euro-millions.com \
             -e FLASK_APP=euromillions_api \
-            -e FLASK_ENV=development \
-            -e DB_NAME=${{ secrets.PROD_DB_NAME }} \
-            -e DB_SCHEMA=${{ secrets.PROD_DB_SCHEMA }} \
-            -e DB_USER=${{ secrets.PROD_DB_USER }} \
-            -e DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }} \
-            -e DB_HOST=${{ secrets.PROD_DB_HOST }} \
-            -e DB_PORT=${{ secrets.PROD_DB_PORT }}
+            -e FLASK_ENV=production \
+            -e DB_SCHEMA=${{ secrets.PROD_DB_SCHEMA }}
