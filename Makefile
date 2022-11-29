@@ -5,18 +5,14 @@ ifneq ("$(wildcard ./.env)","")
 	include .env
 endif
 
-deps:
-	pip3 install -r requirements.txt
-	python3 setup.py install --user
-
 start:
 	flask run
 
-add-draws: deps
-	python3 $(CRONJOBS_PATH)/add_new_draws.py
+add-draws:
+	python3 -m scripts.cronjobs.add_new_draws
 
-setup: deps
-	python3 $(SCRIPTS_PATH)/setup.py $(year)
+setup:
+	python3 -m scripts.setup $(year)
 
 new-migration:
 	yoyo new ./db/migrations -m "$(name)"
