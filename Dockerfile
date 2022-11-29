@@ -22,6 +22,6 @@ RUN apk add --no-cache bash make
 
 WORKDIR /app
 
-EXPOSE $PORT
+EXPOSE 8080
 
-CMD gunicorn --bind 0.0.0.0:$PORT api:'create_app()'
+CMD gunicorn --bind 0.0.0.0:8080 api:'create_app()'
