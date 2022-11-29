@@ -22,10 +22,10 @@ new-migration:
 	yoyo new ./db/migrations -m "$(name)"
 
 migrate:
-	yoyo apply --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_SCHEMA} ./db/migrations
+	yoyo apply --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?schema=${DB_SCHEMA} ./db/migrations
 
 migrate-rollback:
-	yoyo rollback --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_SCHEMA} ./db/migrations
+	yoyo rollback --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?schema=${DB_SCHEMA} ./db/migrations
 
 logs-prod:
 	heroku logs --tail --app prod-euromillions-api
