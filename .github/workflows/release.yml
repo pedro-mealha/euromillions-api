@@ -36,11 +36,35 @@ jobs:
           TF_WORKSPACE: prod
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  migration:
+    name: DB migration
+    runs-on: ubuntu-latest
+    needs: [terraform]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Migrate
+        run: pip install yoyo-migrations psycopg2 && make migrate
+        env:
+          DB_USER: ${{ secrets.PROD_DB_USER }}
+          DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
+          DB_HOST: ${{ secrets.PROD_DB_HOST }}
+          DB_NAME: ${{ secrets.PROD_DB_NAME }}
+          DB_SCHEMA: ${{ secrets.PROD_DB_SCHEMA }}
+
   deploy:
     name: Deploy API
     runs-on: ubuntu-latest
     environment: production
-    needs: [terraform]
+    needs: [migration]
 
     steps:
       - name: Checkout repository
