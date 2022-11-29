@@ -9,11 +9,12 @@ class Database():
                 self.close()
 
             self.conn = psycopg2.connect(
-                database=os.getenv("DB_SCHEMA"),
+                database=os.getenv("DB_NAME"),
                 user=os.getenv("DB_USER"),
                 password=os.getenv("DB_PASSWORD"),
                 host=os.getenv("DB_HOST"),
-                port=os.getenv("DB_PORT")
+                port=os.getenv("DB_PORT"),
+                options="-c search_path="+os.getenv("DB_SCHEMA")
             )
             self.cur = self.conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         except psycopg2.Error as error:

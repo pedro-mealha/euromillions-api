@@ -3,32 +3,31 @@ on:
   release:
     types: [published]
 
+env:
+  REGISTRY: ghcr.io
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
 jobs:
   terraform:
     name: Execute Terraform
     runs-on: ubuntu-latest
-    environment: prod-terraform
+    environment: production
 
     defaults:
       run:
         working-directory: configs/terraform
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      - uses: hashicorp/setup-terraform@v2
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ~1.0
 
-      - name: Get tf backend configs
-        id: configs
-        run: echo "::set-output name=pg_db_url::$(heroku config:get DATABASE_URL -a weneedthepoh-tf-state-backend web)"
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-
       - name: Terraform Init
-        run: terraform init -backend-config="conn_str=${{ steps.configs.outputs.pg_db_url }}"
+        run: terraform init -backend-config="conn_str=postgres://${{ secrets.TF_STATE_DB_USERNAME }}:${{ secrets.TF_STATE_DB_PASSWORD }}@${{ secrets.TF_STATE_DB_HOST }}:${{ secrets.TF_STATE_DB_PORT }}/${{ secrets.TF_STATE_DB_NAME }}?sslmode=disable"
 
       - name: Terraform Apply
         id: apply
@@ -36,33 +35,31 @@ jobs:
         env:
           TF_WORKSPACE: prod
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TF_VAR_heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          TF_VAR_heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          TF_VAR_flask_env: production
-
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Login to Heroku Container registry
-        run: heroku container:login
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-
-      - name: Build and push
-        run: heroku container:push -a prod-euromillions-api web
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
   deploy:
-    needs: [build, terraform]
+    name: Deploy API
     runs-on: ubuntu-latest
     environment: production
+    needs: [terraform]
 
     steps:
-      - name: Deploy API
-        run: heroku container:release -a prod-euromillions-api web
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy api
+        run: |
+          flyctl deploy --now -a prod-euromillions-api \
+            -i ${{ env.REGISTRY }}/weneedthepoh/euromillions-api:${{ github.sha }} \
+            -e EUROMILLIONS_MIN_YEAR=2004 \
+            -e EUROMILLIONS_WEB_BASE_URL=https://www.euro-millions.com \
+            -e FLASK_APP=euromillions_api \
+            -e FLASK_ENV=development \
+            -e DB_NAME=${{ secrets.PROD_DB_NAME }} \
+            -e DB_SCHEMA=${{ secrets.PROD_DB_SCHEMA }} \
+            -e DB_USER=${{ secrets.PROD_DB_USER }} \
+            -e DB_PASSWORD=${{ secrets.PROD_DB_PASSWORD }} \
+            -e DB_HOST=${{ secrets.PROD_DB_HOST }} \
+            -e DB_PORT=${{ secrets.PROD_DB_PORT }}
