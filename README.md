@@ -1,11 +1,12 @@
 # Euromillions Public API
 
-![Python: 3.10](https://img.shields.io/badge/Python-3.10-blue)
-![pip: 22.0.3](https://img.shields.io/badge/pip-22.0.3-blue)
+![Python: 3.11](https://img.shields.io/badge/Python-3.11-blue)
+![pip: 22.1.1](https://img.shields.io/badge/pip-22.1.1-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://opensource.org/licenses/MIT)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/WeNeedThePoh/euromillions-api/graphs/commit-activity)
 
-***Live URL:*** <https://prod-euromillions-api.herokuapp.com>
+***Prod URL:*** <https://euromillions.api.pedromealha.dev>  
+***Staging URL:*** <https://euromillions.staging.api.pedromealha.dev>
 
 ***Tech stack***: Python, Flask, PostgreSQL, Docker, Terraform, Github Actions
 
@@ -37,22 +38,22 @@ For new draws we have the following cronjob running:
 
 ```bash
 # Every Tuesday and Friday every 15min during 21h-23h
-*/15 21-23 * * 2,5 heroku run make add-draws --app prod-euromillions-api
+*/15 21-23 * * 2,5 flyctl ssh console -a prod-euromillions-api -C "sh app/scripts/cronjobs/add_draws.sh"
 
-*/15 21-23 * * 2,5 heroku run make add-draws --app staging-euromillions-api
+*/15 21-23 * * 2,5 flyctl ssh console -a staging-euromillions-api -C "sh app/scripts/cronjobs/add_draws.sh"
 ```
 
-This command will run the script to add draws inside a clone of our production container. This way we ensure that the code runs in the same enviornment and we don't need an exposed endpoint to do it.
+This command will run the script to add draws inside our production and staging containers. This way we ensure that the code runs in the same enviornment and we don't need an exposed endpoint to do it.
 
 ## Deployments (CI/CD)
 
 We took advantage of the power and simplicity that Github Actions have. It was easy to integrate our deployment flow for staging and production.
-We also have Terraform running in all our workflows. Currently, we are using the Heroku container registry to push a docker image that we will use to run our API. Because Heroku doesn't allow us to have different environments we needed to create different apps for staging and prod so we need to repeat the process of pushing docker images. As soon as we push the images we only need to make a new release to have a new version up and running.
-This is a big improvement as now our API is running in a container, it's easier to deploy and maintain.
+We also have Terraform running in all our workflows. Currently, we are using the Github container registry to push a docker image that we will use to run our API. Because Fly.io doesn't allow us to have different environments we needed to create different apps for staging and prod. As soon as we push the image we only need to make a new release to have a new version up and running.
+This is a big improvement because now our API is running in a container, allowing to be easier to deploy and maintain.
 
 ## Terraform
 
-Luckily we can use Terraform to manage Heroku infra with code. As there isn't much to do, right now we use terraform to create the app, the app configs and its DB. This is integrated into our CI in the staging and prod workflows with their respective workspaces.
+Luckily we can use Terraform to manage Fly.io infra with code. As there isn't much to do, right now we use terraform to create the app, the app public IPs and domain certificates. For the database, Fly.io still doens't allow to manage them using terraform, so we had to create them manually using `flyctl`. This is integrated into our CI in the staging and prod workflows with their respective workspaces.
 
 ## Development
 
@@ -78,12 +79,12 @@ This will start a container with a postgres database and another container with 
 
 ### Without docker
 
-Make sure you have python 3.9 installed and a postgres database.
+Make sure you have python 3.11 installed and a postgres database.
 
 Install requirements.
 
 ```bash
-pip3.9 install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Run flask app

@@ -24,10 +24,10 @@ migrate-rollback:
 	yoyo rollback --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?schema=${DB_SCHEMA} ./db/migrations
 
 logs-prod:
-	heroku logs --tail --app prod-euromillions-api
+	flyctl logs --app prod-euromillions-api
 
 logs-stg:
-	heroku logs --tail --app staging-euromillions-api
+	flyctl logs --app staging-euromillions-api
 
 start-docker:
 	docker-compose up --build -d

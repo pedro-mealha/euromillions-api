@@ -141,5 +141,5 @@ jobs:
             -e EUROMILLIONS_MIN_YEAR=2004 \
             -e EUROMILLIONS_WEB_BASE_URL=https://www.euro-millions.com \
             -e FLASK_APP=euromillions_api \
-            -e FLASK_ENV=development \
+            -e FLASK_DEBUG=true \
             -e DB_SCHEMA=${{ secrets.STAGING_DB_SCHEMA }}
