@@ -3,7 +3,7 @@ name: Crontab
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
+    - cron: '*/15 21-23 * * 2,5' # Every Tuesday and Friday every 15min during 21h-23h
   workflow_dispatch:
 
 jobs:
@@ -18,10 +18,10 @@ jobs:
     - name: Setup flyctl
       uses: superfly/flyctl-actions/setup-flyctl@master
 
-    # - name: Run add_draws script in Prod
-    #   run: flyctl ssh console -a prod-euromillions-api -C "sh app/scripts/cronjobs/add_draws.sh"
-    #   env:
-    #     FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+    - name: Run add_draws script in Prod
+      run: flyctl ssh console -a prod-euromillions-api -C "sh app/scripts/cronjobs/add_draws.sh"
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
     - name: Run add_draws script in Staging
       run: flyctl ssh console -a staging-euromillions-api -C "sh app/scripts/cronjobs/add_draws.sh"
