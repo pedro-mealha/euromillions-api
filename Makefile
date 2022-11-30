@@ -5,18 +5,14 @@ ifneq ("$(wildcard ./.env)","")
 	include .env
 endif
 
-deps:
-	pip3 install -r requirements.txt
-	python3 setup.py install --user
-
 start:
 	flask run
 
-add-draws: deps
-	python3 $(CRONJOBS_PATH)/add_new_draws.py
+add-draws:
+	python3 -m scripts.cronjobs.add_new_draws
 
-setup: deps
-	python3 $(SCRIPTS_PATH)/setup.py $(year)
+setup:
+	python3 -m scripts.setup $(year)
 
 new-migration:
 	yoyo new ./db/migrations -m "$(name)"
@@ -28,10 +24,10 @@ migrate-rollback:
 	yoyo rollback --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?schema=${DB_SCHEMA} ./db/migrations
 
 logs-prod:
-	heroku logs --tail --app prod-euromillions-api
+	flyctl logs --app prod-euromillions-api
 
 logs-stg:
-	heroku logs --tail --app staging-euromillions-api
+	flyctl logs --app staging-euromillions-api
 
 start-docker:
 	docker-compose up --build -d

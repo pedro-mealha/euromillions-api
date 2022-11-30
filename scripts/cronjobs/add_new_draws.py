@@ -1,5 +1,4 @@
 from datetime import date
-import sys
 from dotenv import load_dotenv
 
 def main() -> None:
