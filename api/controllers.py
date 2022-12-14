@@ -1,11 +1,7 @@
-import os
-from api.utils.db import Database
 from flask import Blueprint, request, jsonify, request
-from api import service, db
+from api import service
 
 bp = Blueprint('api', __name__)
-
-db = Database()
 
 @bp.get('/draws')
 def get_draws():
