@@ -14,7 +14,7 @@ info:
   title: Euromillions API
   contact:
     name: WeNeedThePoh
-    url: 'https://github.com/WeNeedThePoh'
+    url: 'https://github.com/WeNeedThePoh/euromillions-api'
 paths:
   /draws:
     get:
