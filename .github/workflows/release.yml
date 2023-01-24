@@ -59,6 +59,7 @@ jobs:
           DB_HOST: ${{ secrets.PROD_DB_HOST }}
           DB_NAME: ${{ secrets.PROD_DB_NAME }}
           DB_SCHEMA: ${{ secrets.PROD_DB_SCHEMA }}
+          DB_PORT: ${{ secrets.PROD_DB_PORT }}
 
   deploy:
     name: Deploy API

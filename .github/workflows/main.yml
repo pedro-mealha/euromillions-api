@@ -122,6 +122,7 @@ jobs:
           DB_HOST: ${{ secrets.STAGING_DB_HOST }}
           DB_NAME: ${{ secrets.STAGING_DB_NAME }}
           DB_SCHEMA: ${{ secrets.STAGING_DB_SCHEMA }}
+          DB_PORT: ${{ secrets.STAGING_DB_PORT }}
 
   deploy:
     name: Deploy API
