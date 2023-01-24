@@ -18,10 +18,10 @@ new-migration:
 	yoyo new ./db/migrations -m "$(name)"
 
 migrate:
-	yoyo apply --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?schema=${DB_SCHEMA} ./db/migrations
+	yoyo apply --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}:{DB_PORT}?schema=${DB_SCHEMA} ./db/migrations
 
 migrate-rollback:
-	yoyo rollback --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?schema=${DB_SCHEMA} ./db/migrations
+	yoyo rollback --database postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}:{DB_PORT}?schema=${DB_SCHEMA} ./db/migrations
 
 logs-prod:
 	flyctl logs --app prod-euromillions-api
