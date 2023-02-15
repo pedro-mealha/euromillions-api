@@ -15,6 +15,7 @@ class Database():
             database = result.path[1:]
             hostname = result.hostname
             port = result.port
+            schema = os.getenv("DB_SCHEMA")
 
             self.conn = psycopg2.connect(
                 database=database,
@@ -22,7 +23,7 @@ class Database():
                 password=password,
                 host=hostname,
                 port=port,
-                options="-c search_path="+os.getenv("DB_SCHEMA")
+                options="-c search_path="+schema
             )
             self.cur = self.conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
         except psycopg2.Error as error:
