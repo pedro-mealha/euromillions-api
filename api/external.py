@@ -3,13 +3,13 @@ from datetime import datetime, date
 from bs4 import BeautifulSoup
 
 def get_draws_by_year(year: int) -> list:
-    url = os.getenv("EUROMILLIONS_WEB_BASE_URL") + '/results-history-'+year
+    url = os.getenv("EUROMILLIONS_WEB_BASE_URL") + '/results-history-'+ str(year)
     page = requests.get(url)
 
     html = BeautifulSoup(page.content, 'html.parser')
 
     content = html.find(id='content')
-    draws = content.find_all('div', class_='archives')
+    draws = content.find('tbody').find_all('tr', class_='resultRow')
     draws.reverse() # So we insert draws sorted by date ASC
 
     return draws
@@ -20,8 +20,7 @@ def get_latest_draws() -> list:
 
     html = BeautifulSoup(page.content, 'html.parser')
 
-    draws = html.find(id='content').find('tbody').find_all('tr')
-    draws.reverse() # so we start to parse draws from oldest to newest
+    draws = html.find(id='content')
 
     return draws
 
@@ -33,7 +32,7 @@ def get_date(details_route: str) -> date:
 
 def get_numbers(html) -> list:
     numbers = []
-    balls = html.find_all('li', class_='new ball')
+    balls = html.find_all('li', class_='ball')
     if balls[0].text == '-':
         return numbers
 
@@ -43,7 +42,7 @@ def get_numbers(html) -> list:
 
 def get_stars(html) -> list:
     stars = []
-    balls_star = html.find_all('li', class_='new lucky-star')
+    balls_star = html.find_all('li', class_='lucky-star')
     if balls_star[0].text == '-':
         return stars
 

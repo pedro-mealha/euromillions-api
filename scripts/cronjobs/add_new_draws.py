@@ -11,15 +11,17 @@ def main() -> None:
     draws_to_insert = []
 
     latest_draws = external.get_latest_draws()
+    draws = latest_draws.find('tbody').find_all('tr', class_='resultRow')
+    draws.reverse()
+    last_two_draws = latest_draws.find('div', class_='fx wrapSM').find_all('div', recursive=False);
+    draws.append(last_two_draws[1])
+    draws.append(last_two_draws[0])
 
-    for latest_draw in latest_draws:
-        draw_data = latest_draw.find_all('td', class_='centre')
-        if len(draw_data) == 0:
-            print(f'nothing to do here')
+    for draw in draws:
+        if len(draw) == 0:
             continue
 
-        draw_data.reverse() # The last <td> is the one containing the url for the details page
-        draw_date_href = draw_data[0].find('a')['href']
+        draw_date_href = draw.find('a')['href']
         draw_date = external.get_date(draw_date_href)
 
         if draw_date <= latest['date']:
@@ -27,11 +29,11 @@ def main() -> None:
 
         date = draw_date.strftime('%Y-%m-%d')
         prize, has_winner = external.get_details(draw_date_href)
-        numbers = external.get_numbers(latest_draw)
+        numbers = external.get_numbers(draw)
         if len(numbers) == 0:
             continue
 
-        stars = external.get_stars(latest_draw)
+        stars = external.get_stars(draw)
         if len(stars) == 0:
             continue
 

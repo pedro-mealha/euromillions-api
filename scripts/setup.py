@@ -1,9 +1,13 @@
 import json, os
+import sys
+
 from dotenv import load_dotenv
-from api import Database, external
+load_dotenv()
+
+from api import external, Database
 
 def main(year: int) -> None:
-    if int(year) < int(os.getenv("EUROMILLIONS_MIN_YEAR")):
+    if year < int(os.getenv("EUROMILLIONS_MIN_YEAR")):
         print('{}')
         return
 
@@ -12,7 +16,7 @@ def main(year: int) -> None:
 
     draw_id_index = 1
     for draw in draws:
-        data = draw.find('a', class_='title')
+        data = draw.find('td').find('a')
         details_route = data['href']
 
         draw_date = external.get_date(details_route)
@@ -44,8 +48,13 @@ def main(year: int) -> None:
     print(json.dumps(parsed_draws))
 
 if __name__ == "__main__":
-    load_dotenv()
-
     global db
     db = Database()
-    main()
+
+    if len(sys.argv) < 2:
+        print('argument "year" is missing')
+        sys.exit()
+
+    year = sys.argv[1]
+
+    main(int(year))
