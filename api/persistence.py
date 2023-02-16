@@ -1,6 +1,6 @@
-from api import db
+from api.utils.db import Database
 
-def get_draws(year: int, dates: list, limit = None, orderBy = ["date", "ASC"]) -> list:
+def get_draws(db: Database, year: int, dates: list, limit = None, orderBy = ["date", "ASC"]) -> list:
     sql = "SELECT * FROM draws"
     vars = []
 
@@ -22,27 +22,21 @@ def get_draws(year: int, dates: list, limit = None, orderBy = ["date", "ASC"]) -
         sql += ' LIMIT %s'
         vars.append(limit)
 
-    db.getCursor().execute(sql, vars)
-    draws = db.getCursor().fetchall()
+    return db.getConn().execute(sql, vars).fetchall()
 
-    return draws
-
-def get_latest_draw() -> dict:
-    latest = get_draws(None, None, 1, ["date", "DESC"])
+def get_latest_draw(db: Database) -> dict:
+    latest = get_draws(db, None, None, 1, ["date", "DESC"])
     if len(latest) > 0:
         return latest[0]
 
     return None
 
-def get_draw_by_id(draw_id: int) -> list:
+def get_draw_by_id(db: Database, draw_id: int) -> list:
     sql = "SELECT * FROM draws WHERE draw_id = %s"
 
-    db.getCursor().execute(sql, [draw_id])
-    draw = db.getCursor().fetchone()
+    return db.getConn().execute(sql, [draw_id]).fetchone()
 
-    return draw
-
-def insert_draws(draws: list) -> bool:
+def insert_draws(db: Database, draws: list) -> bool:
     sql = "INSERT INTO draws (draw_id, numbers, stars, date, prize, has_winner) VALUES "
     vars = []
     for i, draw in enumerate(draws):
@@ -53,7 +47,7 @@ def insert_draws(draws: list) -> bool:
 
         vars.extend(draw)
 
-    db.getCursor().execute(sql, vars)
+    db.getConn().execute(sql, vars)
     db.commit()
 
     return True
