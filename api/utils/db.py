@@ -1,7 +1,5 @@
 import os
-import psycopg2
-import psycopg2.extras
-from urllib.parse import urlparse
+from psycopg import conninfo, connect, Error, Connection, rows
 
 class Database():
     def __init__(self):
@@ -9,28 +7,21 @@ class Database():
             if hasattr(self, 'conn') and self.conn != None:
                 self.close()
 
-            result = urlparse(os.getenv("DATABASE_URL"))
-            username = result.username
-            password = result.password
-            database = result.path[1:]
-            hostname = result.hostname
-            port = result.port
+            db_url = os.getenv("DATABASE_URL")
             schema = os.getenv("DB_SCHEMA")
 
-            self.conn = psycopg2.connect(
-                database=database,
-                user=username,
-                password=password,
-                host=hostname,
-                port=port,
-                options="-c search_path="+schema
-            )
-            self.cur = self.conn.cursor(cursor_factory = psycopg2.extras.RealDictCursor)
-        except psycopg2.Error as error:
-            print ("Oops! An exception has occured:", error)
+            db_info = conninfo.conninfo_to_dict(db_url, options="-c search_path="+schema)
+
+            self.conn = connect(**db_info, row_factory=rows.dict_row)
+            self.cur = self.conn.cursor()
+        except Error as error:
+            print ("Error while connecting to db:", error)
 
     def getCursor(self):
         return self.cur
+
+    def getConn(self) -> Connection:
+        return self.conn
 
     def commit(self):
         self.conn.commit()

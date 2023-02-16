@@ -1,8 +1,10 @@
 from datetime import date
 from dotenv import load_dotenv
+from api import persistence, external
+from api.utils.db import Database
 
-def main() -> None:
-    latest = persistence.get_latest_draw()
+def main(db: Database) -> None:
+    latest = persistence.get_latest_draw(db)
     if latest == None:
         return print('latest draw not found')
 
@@ -47,7 +49,7 @@ def main() -> None:
 
     if len(draws_to_insert) > 0:
         print(f'{len(draws_to_insert)} draws added')
-        return persistence.insert_draws(draws_to_insert)
+        return persistence.insert_draws(db, draws_to_insert)
 
     print('no new draws to add')
 
@@ -68,5 +70,6 @@ def get_new_draw_id(last_draw_date: date, current_draw_date: date, latest_draw_i
 if __name__ == "__main__":
     load_dotenv()
 
-    from api import persistence, external
-    main()
+    db = Database()
+    main(db)
+    db.close()

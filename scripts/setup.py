@@ -1,12 +1,10 @@
 import json, os
 import sys
-
 from dotenv import load_dotenv
-load_dotenv()
+from api import external
+from api.utils.db import Database
 
-from api import external, Database
-
-def main(year: int) -> None:
+def main(year: int, db: Database) -> None:
     if year < int(os.getenv("EUROMILLIONS_MIN_YEAR")):
         print('{}')
         return
@@ -39,7 +37,9 @@ def main(year: int) -> None:
         stars_string = '{' + ','.join(str(star) for star in stars) + '}'
 
         sql = "INSERT INTO draws (draw_id, numbers, stars, date, prize, has_winner) VALUES (%s, %s, %s, %s, %s, %s);"
-        db.getCursor().execute(sql, [draw_id, numbers_string, stars_string, date, prize, has_winner])
+        db.getConn().execute(sql, [draw_id, numbers_string, stars_string, date, prize, has_winner])
+
+        print(f'draw from date {date} added')
 
         draw_id_index += 1
 
@@ -48,13 +48,14 @@ def main(year: int) -> None:
     print(json.dumps(parsed_draws))
 
 if __name__ == "__main__":
-    global db
-    db = Database()
+    load_dotenv()
 
     if len(sys.argv) < 2:
         print('argument "year" is missing')
         sys.exit()
 
     year = sys.argv[1]
+    db = Database()
 
-    main(int(year))
+    main(int(year), db)
+    db.close()

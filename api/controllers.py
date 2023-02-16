@@ -1,26 +1,31 @@
-from flask import Blueprint, request, jsonify, request
+from flask import Blueprint, request, request
 from api import service
+from api.utils.db import Database
 
 bp = Blueprint('api', __name__)
 
 @bp.get('/draws')
 def get_draws():
+    db = Database()
     year = request.args.get('year')
     dates = request.args.get('dates')
 
     if dates != None:
         dates = dates.split(',')
 
-    results = service.get_draws(year, dates)
+    results = service.get_draws(db, year, dates)
 
-    return jsonify(results), 200
+    db.close()
+    return results, 200
 
 @bp.get('/draws/<int:draw_id>')
 def get_draw(draw_id):
-    contest = service.get_draw(draw_id)
+    db = Database()
+    contest = service.get_draw(db, draw_id)
+    db.close()
 
     if contest != None:
-        return jsonify(contest), 200
+        return contest, 200
 
     return "", 404
 
