@@ -5,7 +5,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  REPO_OWNER: ${GITHUB_REPOSITORY%/*}
+  REPO_OWNER: ${{ github.repository_owner }}
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
 jobs:
