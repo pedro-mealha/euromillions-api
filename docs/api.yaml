@@ -9,8 +9,8 @@ info:
   version: 2.4.2
   title: Euromillions API
   contact:
-    name: WeNeedThePoh
-    url: 'https://github.com/WeNeedThePoh/euromillions-api'
+    name: Pedro Mealha
+    url: 'https://github.com/pedro-mealha/euromillions-api'
 paths:
   /draws:
     get:
