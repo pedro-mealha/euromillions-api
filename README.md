@@ -3,7 +3,7 @@
 ![Python: 3.11](https://img.shields.io/badge/Python-3.11-blue)
 ![pip: 22.1.1](https://img.shields.io/badge/pip-22.1.1-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://opensource.org/licenses/MIT)
-[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/WeNeedThePoh/euromillions-api/graphs/commit-activity)
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/pedro-mealha/euromillions-api/graphs/commit-activity)
 
 ***Prod URL:*** <https://euromillions.api.pedromealha.dev>  
 ***Staging URL:*** <https://euromillions.staging.api.pedromealha.dev>
@@ -62,7 +62,7 @@ We have two ways to working locally on this project: docker or run flash app.
 To get started clone the repo
 
 ```bash
-git clone https://github.com/WeNeedThePoh/euromillions-api
+git clone https://github.com/pedro-mealha/euromillions-api
 
 cd euromillions-api
 ```

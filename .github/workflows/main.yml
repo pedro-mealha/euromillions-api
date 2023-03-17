@@ -12,6 +12,7 @@ permissions:
 
 env:
   REGISTRY: ghcr.io
+  REPO_OWNER: ${GITHUB_REPOSITORY%/*}
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
 jobs:
@@ -47,7 +48,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: ${{ env.REGISTRY }}/weneedthepoh/euromillions-api
+          images: ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/euromillions-api
           tags: type=sha,event=branch,format=long,prefix=
 
       - name: Build and push Docker image
@@ -140,7 +141,7 @@ jobs:
       - name: Deploy api
         run: |
           flyctl deploy --now -a staging-euromillions-api \
-            -i ${{ env.REGISTRY }}/weneedthepoh/euromillions-api:${{ github.sha }} \
+            -i ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/euromillions-api:${{ github.sha }} \
             -e EUROMILLIONS_MIN_YEAR=2004 \
             -e EUROMILLIONS_WEB_BASE_URL=https://www.euro-millions.com \
             -e FLASK_APP=euromillions_api \
