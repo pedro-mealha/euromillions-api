@@ -1,8 +1,7 @@
 import os
 from flask import Flask
-from flask.json import JSONEncoder
+from json import JSONEncoder
 from datetime import date
-
 from flask import Flask
 from dotenv import load_dotenv
 
