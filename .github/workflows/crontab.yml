@@ -19,11 +19,11 @@ jobs:
       uses: superfly/flyctl-actions/setup-flyctl@master
 
     - name: Run add_draws script in Prod
-      run: flyctl ssh console -a prod-euromillions-api -C "sh app/scripts/cronjobs/add_draws.sh"
+      run: flyctl ssh console -a prod-euromillions-api -C "sh /app/scripts/cronjobs/add_draws.sh"
       env:
         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
     - name: Run add_draws script in Staging
-      run: flyctl ssh console -a staging-euromillions-api -C "sh app/scripts/cronjobs/add_draws.sh"
+      run: flyctl ssh console -a staging-euromillions-api -C "sh /app/scripts/cronjobs/add_draws.sh"
       env:
         FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
