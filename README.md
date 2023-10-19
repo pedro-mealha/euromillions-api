@@ -1,6 +1,6 @@
 # Euromillions Public API
 
-![Python: 3.11](https://img.shields.io/badge/Python-3.11-blue)
+![Python: 3.12](https://img.shields.io/badge/Python-3.12-blue)
 ![pip: 22.1.1](https://img.shields.io/badge/pip-22.1.1-blue)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue)](https://opensource.org/licenses/MIT)
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/pedro-mealha/euromillions-api/graphs/commit-activity)
@@ -79,7 +79,7 @@ This will start a container with a postgres database and another container with 
 
 ### Without docker
 
-Make sure you have python 3.11 installed and a postgres database.
+Make sure you have python 3.12 installed and a postgres database.
 
 Install requirements.
 
