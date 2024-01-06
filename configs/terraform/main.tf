@@ -8,12 +8,6 @@ resource "fly_app" "euromillions_api" {
   org  = "personal"
 }
 
-resource "fly_ip" "euromillions_api_ip" {
-  app        = local.app_name
-  type       = "v4"
-  depends_on = [fly_app.euromillions_api]
-}
-
 resource "fly_ip" "euromillions_api_ip_v6" {
   app        = local.app_name
   type       = "v6"
