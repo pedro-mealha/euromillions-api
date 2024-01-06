@@ -119,7 +119,7 @@ jobs:
         run: pip install yoyo-migrations psycopg2 && make migrate
         env:
           DB_USER: ${{ secrets.STAGING_DB_USER }}
-          DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
+          DB_PASSWORD: ${{ secrets.PROD_DB_PASSWORD }}
           DB_HOST: ${{ secrets.STAGING_DB_HOST }}
           DB_NAME: ${{ secrets.STAGING_DB_NAME }}
           DB_SCHEMA: ${{ secrets.STAGING_DB_SCHEMA }}
