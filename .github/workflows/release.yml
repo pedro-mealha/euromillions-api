@@ -22,6 +22,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # The public facing IP for the database is ipv6, GH does not support connecting to ipv6 addresses so we need this as a workaround.
+      - name: Setup WARP
+        uses: fscarmen/warp-on-actions@v2
+
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -45,6 +49,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      # The public facing IP for the database is ipv6, GH does not support connecting to ipv6 addresses so we need this as a workaround.
+      - name: Setup WARP
+        uses: fscarmen/warp-on-actions@v2
 
       - name: Setup Python
         uses: actions/setup-python@v5
