@@ -45,7 +45,16 @@ jobs:
 
       # The public facing IP for the database is ipv6, GH does not support connecting to ipv6 addresses so we need this as a workaround.
       - name: Setup WARP
-        uses: fscarmen/warp-on-actions@v2
+        run: |
+          echo "WARP mode: client warp+doh."
+          sudo apt-get -y update
+          curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+          echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
+          sudo apt-get update
+          sudo apt-get install -y cloudflare-warp
+          sudo warp-cli --accept-tos register
+          sudo warp-cli --accept-tos set-mode warp+doh
+          sudo warp-cli --accept-tos connect
 
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v3
