@@ -1,6 +1,6 @@
 beautifulsoup4==4.12.3
 Flask==3.0.3
-gunicorn==22.0.0
+gunicorn==23.0.0
 psycopg[binary]==3.2.1
 python-dotenv==1.0.1
 requests==2.32.3
