@@ -142,7 +142,7 @@ jobs:
           cache: 'pip'
 
       - name: Migrate
-        run: pip install yoyo-migrations psycopg2 && make migrate
+        run: pip install yoyo-migrations "psycopg[binary]" && make migrate
         env:
           DB_USER: ${{ secrets.STAGING_DB_USER }}
           DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
