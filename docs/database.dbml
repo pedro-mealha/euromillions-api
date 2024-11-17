@@ -4,6 +4,22 @@ Table draws {
   numbers text[] [not null]
   stars text[] [not null]
   date date [not null]
-  prize float [default: 0]
+  prize float [default: 0] // deprecated in favour of draws_prizes table
   has_winner bool [default: false]
 }
+
+Table draws_prizes {
+  draw_id int [not null]
+  prize_combination_id int [not null]
+  prize float [not null]
+  winners int [default: 0]
+}
+
+Table prize_combinations {
+  id int [pk, increment]
+  matched_numbers int [not null]
+  matched_starts int [not null]
+}
+
+Ref: draws_prizes.draw_id > draws.id // many-to-one
+Ref: draws_prizes.prize_combination_id > prize_combination_id.id // many-to-one
