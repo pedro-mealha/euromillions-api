@@ -46,9 +46,9 @@ def get_draws_with_prizes(db: Database, year: int, dates: list, limit = None, or
             d.has_winner,
             TO_CHAR(d.date, 'yyyy-mm-dd') as date,
             COALESCE(jsonb_agg(json_build_object('prize', dp.prize, 'winners', dp.winners, 'matched_numbers', pc.matched_numbers, 'matched_stars', pc.matched_stars)) FILTER (WHERE dp.draw_id IS NOT NULL), '[]') as prizes
-        FROM euromillions.draws as d
-        LEFT JOIN euromillions.draws_prizes as dp ON dp.draw_id = d.draw_id
-        LEFT JOIN euromillions.prize_combinations as pc ON pc.id = dp.prize_combination_id
+        FROM draws as d
+        LEFT JOIN draws_prizes as dp ON dp.draw_id = d.draw_id
+        LEFT JOIN prize_combinations as pc ON pc.id = dp.prize_combination_id
     """
     vars = []
 
@@ -84,9 +84,9 @@ def get_draw_with_prizes_by_id(db: Database, draw_id: int) -> list:
             d.has_winner,
             TO_CHAR(d.date, 'yyyy-mm-dd') as date,
             COALESCE(jsonb_agg(json_build_object('prize', dp.prize, 'winners', dp.winners, 'matched_numbers', pc.matched_numbers, 'matched_stars', pc.matched_stars)) FILTER (WHERE dp.draw_id IS NOT NULL), '[]') as prizes
-        FROM euromillions.draws as d
-        LEFT JOIN euromillions.draws_prizes as dp ON dp.draw_id = d.draw_id
-        LEFT JOIN euromillions.prize_combinations as pc ON pc.id = dp.prize_combination_id
+        FROM draws as d
+        LEFT JOIN draws_prizes as dp ON dp.draw_id = d.draw_id
+        LEFT JOIN prize_combinations as pc ON pc.id = dp.prize_combination_id
         WHERE d.draw_id = %s
         GROUP BY d.id, d.draw_id;
     """
