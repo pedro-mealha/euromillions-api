@@ -60,6 +60,7 @@ def get_details(details_route: str) -> list:
     has_winner = False
 
     body = html.find(id="PrizePT")
+    body = body if body is not None else html.find(id="PrizeES")
     if body is None:
         return [prizes, has_winner]
 

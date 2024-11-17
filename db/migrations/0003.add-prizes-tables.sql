@@ -18,5 +18,6 @@ CREATE TABLE draws_prizes (
     winners INT DEFAULT 0
 );
 
+CREATE UNIQUE INDEX draws_prizes_draw_id_prize_combination_id_uindex ON draws_prizes (draw_id, prize_combination_id);
 ALTER TABLE draws_prizes ADD CONSTRAINT draws_prizes_draws_id_fk FOREIGN KEY (draw_id) REFERENCES draws (draw_id);
 ALTER TABLE draws_prizes ADD CONSTRAINT draws_prizes_prize_combinations_id_fk FOREIGN KEY (prize_combination_id) REFERENCES prize_combinations (id);
