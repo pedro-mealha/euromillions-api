@@ -56,23 +56,43 @@ def get_details(details_route: str) -> list:
 
     html = BeautifulSoup(page.content, 'html.parser')
 
-    prize = 0
+    prizes = []
     has_winner = False
 
     body = html.find(id="PrizePT")
+    body = body if body is not None else html.find(id="PrizeES")
     if body is None:
-        return [prize, has_winner]
+        return [prizes, has_winner]
 
-    row = body.find('tbody').find('tr')
-    if row is None:
-        return [prize, has_winner]
+    rows = body.find('tbody').find_all('tr')
+    if len(rows) == 0:
+        return [prizes, has_winner]
 
-    columns = row.find_all('td')
-    for column in columns:
-        if column['data-title'] == 'Prize Per Winner':
-            prize = float(column.text.replace(',', '').replace('€', '').strip())
-        elif column['data-title'] == 'Total Winners':
-            value = column.text.replace('Rollover! ', '').replace('Rolldown! ', '').strip()
-            has_winner = int(value) > 0
+    for row in rows:
+        if row.find('td').text.replace(' ', '').strip() == 'Totals':
+            continue
 
-    return [prize, has_winner]
+        prize = {
+            "prize": 0,
+            "winners": 0,
+            "combination": ""
+        }
+
+        columns = row.find_all('td')
+        for column in columns:
+            if column['data-title'] == 'Numbers Matched':
+                value = column.text.replace(' ', '').strip()
+                if len(value) == 1:
+                    value = f"{value}+0"
+                prize['combination'] = value
+            elif column['data-title'] == 'Prize Per Winner':
+                prize['prize'] = float(column.text.replace(',', '').replace('€', '').strip())
+            elif column['data-title'] == 'Total Winners':
+                prize['winners'] = column.text.replace(',', '').replace('Rollover! ', '').replace('Rolldown! ', '').strip()
+
+        if prize['combination'] == "5+2" and int(prize['winners']) > 0:
+            has_winner = True
+
+        prizes.append(prize)
+
+    return [prizes, has_winner]
