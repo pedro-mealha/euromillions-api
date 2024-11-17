@@ -36,6 +36,11 @@ def get_draw_by_id(db: Database, draw_id: int) -> list:
 
     return db.getConn().execute(sql, [draw_id]).fetchone()
 
+def get_prize_combinations(db: Database) -> list:
+    sql = "SELECT * FROM prize_combinations"
+
+    return db.getConn().execute(sql).fetchall()
+
 def insert_draws(db: Database, draws: list) -> bool:
     sql = "INSERT INTO draws (draw_id, numbers, stars, date, prize, has_winner) VALUES "
     vars = []
@@ -46,6 +51,22 @@ def insert_draws(db: Database, draws: list) -> bool:
             sql += ", (%s, %s, %s, %s, %s, %s)"
 
         vars.extend(draw)
+
+    db.getConn().execute(sql, vars)
+    db.commit()
+
+    return True
+
+def insert_draws_prizes(db: Database, draws_prizes: list) -> bool:
+    sql = "INSERT INTO draws_prizes (draw_id, prize_combination_id, prize, winners) VALUES "
+    vars = []
+    for i, draw_prizes in enumerate(draws_prizes):
+        if i == 0:
+            sql += "(%s, %s, %s, %s)"
+        else:
+            sql += ", (%s, %s, %s, %s)"
+
+        vars.extend(draw_prizes)
 
     db.getConn().execute(sql, vars)
     db.commit()
