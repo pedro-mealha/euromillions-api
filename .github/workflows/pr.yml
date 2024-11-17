@@ -52,8 +52,8 @@ jobs:
           echo "deb [arch=amd64 signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
           sudo apt-get update
           sudo apt-get install -y cloudflare-warp
-          sudo warp-cli --accept-tos register
-          sudo warp-cli --accept-tos set-mode warp+doh
+          sudo warp-cli --accept-tos registration new
+          sudo warp-cli --accept-tos mode warp+doh
           sudo warp-cli --accept-tos connect
 
       - name: Setup terraform
