@@ -46,6 +46,8 @@ jobs:
       # The public facing IP for the database is ipv6, GH does not support connecting to ipv6 addresses so we need this as a workaround. https://github.com/actions/runner-images/issues/668
       - name: Set up WARP
         uses: fscarmen/warp-on-actions@v1.3
+        with:
+          mode: client
 
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v3
