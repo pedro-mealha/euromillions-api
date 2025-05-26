@@ -85,6 +85,8 @@ jobs:
 
       - name: Set up WARP
         uses: fscarmen/warp-on-actions@v1.3
+        with:
+          mode: client
 
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v3
