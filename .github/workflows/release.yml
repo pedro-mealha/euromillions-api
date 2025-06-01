@@ -12,7 +12,6 @@ jobs:
   terraform:
     name: Execute Terraform
     runs-on: ubuntu-latest
-    environment: production
 
     defaults:
       run:

@@ -73,7 +73,6 @@ jobs:
   terraform:
     name: Execute Terraform
     runs-on: ubuntu-latest
-    environment: staging
 
     defaults:
       run:
@@ -105,56 +104,55 @@ jobs:
           TF_WORKSPACE: staging
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  migration:
-    name: DB migration
-    runs-on: ubuntu-latest
-    needs: [build, terraform]
+  # migration:
+  #   name: DB migration
+  #   runs-on: ubuntu-latest
+  #   needs: [build, terraform]
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-      # The public facing IP for the database is ipv6, GH does not support connecting to ipv6 addresses so we need this as a workaround.
-      - name: Set up WARP
-        uses: fscarmen/warp-on-actions@v1.3
-        with:
-          mode: client
+  #     # The public facing IP for the database is ipv6, GH does not support connecting to ipv6 addresses so we need this as a workaround.
+  #     - name: Set up WARP
+  #       uses: fscarmen/warp-on-actions@v1.3
+  #       with:
+  #         mode: client
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-          cache: 'pip'
+  #     - name: Setup Python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: '3.12'
+  #         cache: 'pip'
 
-      - name: Migrate
-        run: pip install yoyo-migrations "psycopg[binary]" && make migrate
-        env:
-          DB_USER: ${{ secrets.STAGING_DB_USER }}
-          DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
-          DB_HOST: ${{ secrets.STAGING_DB_HOST }}
-          DB_NAME: ${{ secrets.STAGING_DB_NAME }}
-          DB_SCHEMA: ${{ secrets.STAGING_DB_SCHEMA }}
-          DB_PORT: ${{ secrets.STAGING_DB_PORT }}
+  #     - name: Migrate
+  #       run: pip install yoyo-migrations "psycopg[binary]" && make migrate
+  #       env:
+  #         DB_USER: ${{ secrets.STAGING_DB_USER }}
+  #         DB_PASSWORD: ${{ secrets.STAGING_DB_PASSWORD }}
+  #         DB_HOST: ${{ secrets.STAGING_DB_HOST }}
+  #         DB_NAME: ${{ secrets.STAGING_DB_NAME }}
+  #         DB_SCHEMA: ${{ secrets.STAGING_DB_SCHEMA }}
+  #         DB_PORT: ${{ secrets.STAGING_DB_PORT }}
+  # deploy:
+  #   name: Deploy API
+  #   runs-on: ubuntu-latest
+  #   environment: staging
+  #   needs: [migration]
 
-  deploy:
-    name: Deploy API
-    runs-on: ubuntu-latest
-    environment: staging
-    needs: [migration]
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  #     - name: Setup flyctl
+  #       uses: superfly/flyctl-actions/setup-flyctl@master
 
-      - name: Setup flyctl
-        uses: superfly/flyctl-actions/setup-flyctl@master
-
-      - name: Deploy api
-        run: |
-          flyctl deploy --now -a staging-euromillions-api \
-            -i ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/euromillions-api:${{ github.sha }} \
-            -e EUROMILLIONS_MIN_YEAR=2004 \
-            -e EUROMILLIONS_WEB_BASE_URL=https://www.euro-millions.com \
-            -e FLASK_APP=euromillions_api \
-            -e FLASK_DEBUG=true \
-            -e DB_SCHEMA=${{ secrets.STAGING_DB_SCHEMA }}
+  #     - name: Deploy api
+  #       run: |
+  #         flyctl deploy --now -a staging-euromillions-api \
+  #           -i ${{ env.REGISTRY }}/${{ env.REPO_OWNER }}/euromillions-api:${{ github.sha }} \
+  #           -e EUROMILLIONS_MIN_YEAR=2004 \
+  #           -e EUROMILLIONS_WEB_BASE_URL=https://www.euro-millions.com \
+  #           -e FLASK_APP=euromillions_api \
+  #           -e FLASK_DEBUG=true \
+  #           -e DB_SCHEMA=${{ secrets.STAGING_DB_SCHEMA }}
