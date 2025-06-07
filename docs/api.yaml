@@ -1,7 +1,6 @@
 openapi: 3.0.3
 servers:
   - url: https://euromillions.api.pedromealha.dev
-  - url: https://euromillions.staging.api.pedromealha.dev
 
 info:
   description: >-
@@ -76,13 +75,13 @@ paths:
         name: year
         required: false
         schema:
-            type: integer
-            minimum: 2004
+          type: integer
+          minimum: 2004
       - in: query
         name: dates
         required: false
         schema:
-            type: string
+          type: string
         examples:
           startDate:
             summary: Filter draws with a start date
@@ -93,6 +92,24 @@ paths:
           endDate:
             summary: Filter draws with a end date
             value: ',2021-02-01'
+      - in: query
+        name: limit
+        required: false
+        schema:
+          type: integer
+          minimum: 10
+      - in: query
+        name: order_by
+        required: false
+        schema:
+          type: string
+        examples:
+          orderByDateASC:
+            summary: Order by date ASC
+            value: 'date,ASC'
+          orderByDateDESC:
+            summary: Order by date DESC
+            value: 'date,DESC'
       summary: Fetch all draws results
       tags:
         - draws
@@ -122,7 +139,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/DrawV1'
-
 
 components:
   schemas:
