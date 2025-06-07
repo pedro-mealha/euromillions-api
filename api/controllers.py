@@ -39,8 +39,10 @@ def get_draws_v1():
     order_by = request.args.get('order_by')
     limit = request.args.get('limit')
 
-    if dates != None:
-        dates = dates.split(',')
+    dates = dates.split(',') if dates != None else dates
+    year = int(year) if year != None else year
+    limit = int(limit) if limit != None else limit
+    order_by = order_by.split(',') if order_by != None else order_by
 
     results = service.get_draws_v1(db, year, dates, limit, order_by)
 

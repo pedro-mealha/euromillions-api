@@ -36,7 +36,7 @@ def get_draw_by_id(db: Database, draw_id: int) -> list:
 
     return db.getConn().execute(sql, [draw_id]).fetchone()
 
-def get_draws_with_prizes(db: Database, year: int, dates: list, limit = None, orderBy = ["date", "ASC"]) -> list:
+def get_draws_with_prizes(db: Database, year: int = None, dates: list = None, limit = None, order_by = ["date", "ASC"]) -> list:
     sql = """
         SELECT
             d.id,
@@ -61,16 +61,16 @@ def get_draws_with_prizes(db: Database, year: int, dates: list, limit = None, or
     if dates != None and len(dates) > 1 and dates[1] != "":
         sql, vars = add_condition(sql, vars, 'date <= %s', dates[1])
 
-    if orderBy != None and len(orderBy) > 0:
-        sql += " ORDER BY %s " % orderBy[0]
-        if len(orderBy) > 1 and (orderBy[1] == "ASC" or orderBy[1] == "DESC"):
-            sql += orderBy[1]
+    sql += "GROUP BY d.id, d.draw_id, d.date"
+
+    if order_by != None and len(order_by) > 0 and order_by[0] == 'date':
+        sql += " ORDER BY %s " % order_by[0]
+        if len(order_by) > 1 and (order_by[1] == "ASC" or order_by[1] == "DESC"):
+            sql += "%s " % order_by[1]
 
     if limit != None and limit > 0:
         sql += ' LIMIT %s'
         vars.append(limit)
-
-    sql += "GROUP BY d.id, d.draw_id"
 
     return db.getConn().execute(sql, vars).fetchall()
 
