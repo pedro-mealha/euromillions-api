@@ -44,7 +44,7 @@ jobs:
   migration:
     name: DB migration
     runs-on: ubuntu-latest
-    needs: [terraform]
+    # needs: [terraform]
 
     steps:
       - name: Checkout repository
