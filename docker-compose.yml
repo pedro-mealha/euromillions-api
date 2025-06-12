@@ -1,4 +1,3 @@
-version: '3'
 services:
   euromillions-api:
     container_name: euromillions-api

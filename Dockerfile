@@ -1,27 +1,61 @@
-FROM python:3.13-alpine AS builder
+FROM python:3.12-slim AS builder
 
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
 
-RUN apk add --no-cache postgresql-libs && \
-    apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev && \
-    pip3.13 install --prefix=/install -r requirements.txt --no-cache-dir && \
-    apk --purge del .build-deps
+RUN apt-get update && \
+    apt-get install -y postgresql-common && \
+    apt-get install -y build-essential musl-dev && \
+    pip3.12 install --prefix=/install -r requirements.txt --no-cache-dir
 
 COPY . /app
 
 # --
 
-FROM builder
+FROM tiangolo/uwsgi-nginx-flask:python3.12
+
+# set environment varibles
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 COPY --from=builder /install /usr/local
 COPY --from=builder /app /app
 
-RUN apk add --no-cache bash make
+RUN apt-get install bash make
 
 WORKDIR /app
 
+COPY <<-"EOF" /etc/nginx/conf.d/default.conf
+limit_req_zone $binary_remote_addr zone=mylimit:10m rate=5r/s;
+
+upstream gunicorn_app {
+    server 127.0.0.1:3000;
+}
+
+server {
+  listen 8080;
+  listen [::]:8080;
+  server_name localhost;
+
+  location / {
+    limit_req             zone=mylimit;
+    proxy_ssl_server_name on;
+    proxy_read_timeout    1800;
+    proxy_set_header      Host $host;
+    proxy_set_header      X-Real-IP $remote_addr;
+    proxy_set_header      X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header      X-Forwarded-Proto https;
+    proxy_pass            http://gunicorn_app;
+  }
+
+  error_page 500 502 503 504 /50x.html;
+  location = /50x.html {
+    root /usr/share/nginx/html;
+  }
+}
+EOF
+
 EXPOSE 8080
 
-CMD gunicorn --bind 0.0.0.0:8080 --timeout 1000 api:'create_app()'
+ENTRYPOINT ["sh", "/app/start.sh"]
