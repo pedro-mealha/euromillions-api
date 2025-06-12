@@ -39,6 +39,8 @@ server {
   server_name localhost;
 
   location / {
+    limit_req_status      429;
+    limit_conn_status     429;
     limit_req             zone=mylimit;
     proxy_ssl_server_name on;
     proxy_read_timeout    1800;
@@ -52,6 +54,11 @@ server {
   error_page 500 502 503 504 /50x.html;
   location = /50x.html {
     root /usr/share/nginx/html;
+  }
+
+  error_page 429 /429.html;
+  location = /429.html {
+    root /app;
   }
 }
 EOF
