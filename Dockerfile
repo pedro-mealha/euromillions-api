@@ -27,7 +27,7 @@ RUN apt-get install bash make
 WORKDIR /app
 
 COPY <<-"EOF" /etc/nginx/conf.d/default.conf
-limit_req_zone $binary_remote_addr zone=mylimit:10m rate=5r/s;
+limit_req_zone $binary_remote_addr zone=mylimit:10m rate=15r/m;
 
 upstream gunicorn_app {
     server 127.0.0.1:3000;
