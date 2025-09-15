@@ -83,7 +83,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up WARP
-        uses: fscarmen/warp-on-actions@v1.3
+        uses: fscarmen/warp-on-actions@v1.4
         with:
           mode: client
 
@@ -115,7 +115,7 @@ jobs:
 
   #     # The public facing IP for the database is ipv6, GH does not support connecting to ipv6 addresses so we need this as a workaround.
   #     - name: Set up WARP
-  #       uses: fscarmen/warp-on-actions@v1.3
+  #       uses: fscarmen/warp-on-actions@v1.4
   #       with:
   #         mode: client
 
