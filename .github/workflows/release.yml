@@ -22,7 +22,7 @@ jobs:
   #       uses: actions/checkout@v5
 
   #     - name: Set up WARP
-  #       uses: fscarmen/warp-on-actions@v1.3
+  #       uses: fscarmen/warp-on-actions@v1.4
   #       with:
   #         mode: client
 
@@ -51,7 +51,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set up WARP
-        uses: fscarmen/warp-on-actions@v1.3
+        uses: fscarmen/warp-on-actions@v1.4
         with:
           mode: client
 
