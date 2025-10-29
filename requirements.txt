@@ -2,7 +2,7 @@ beautifulsoup4==4.13.4
 Flask==3.1.2
 gunicorn==23.0.0
 psycopg[binary]==3.2.9
-python-dotenv==1.1.1
+python-dotenv==1.2.1
 requests==2.32.4
 yoyo-migrations==9.0.0
 flask-cors==6.0.1
