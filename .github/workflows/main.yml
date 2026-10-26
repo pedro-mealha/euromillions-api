@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Log in to the Container registry
         uses: docker/login-action@v4
@@ -80,7 +80,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up WARP
         uses: fscarmen/warp-on-actions@v1.4
@@ -111,7 +111,7 @@ jobs:
 
   #   steps:
   #     - name: Checkout repository
-  #       uses: actions/checkout@v6
+  #       uses: actions/checkout@v7
 
   #     # The public facing IP for the database is ipv6, GH does not support connecting to ipv6 addresses so we need this as a workaround.
   #     - name: Set up WARP
@@ -142,7 +142,7 @@ jobs:
 
   #   steps:
   #     - name: Checkout repository
-  #       uses: actions/checkout@v6
+  #       uses: actions/checkout@v7
 
   #     - name: Setup flyctl
   #       uses: superfly/flyctl-actions/setup-flyctl@master
